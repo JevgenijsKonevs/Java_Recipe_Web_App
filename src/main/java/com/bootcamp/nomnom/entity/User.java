@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,6 +28,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Recipe> recipes;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
+
     @Override
     public String getPassword() {
         return password;
@@ -47,6 +51,14 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -78,4 +90,19 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 }
