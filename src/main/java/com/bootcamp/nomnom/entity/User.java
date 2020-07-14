@@ -24,6 +24,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Recipe> recipes;
+
     @Override
     public String getPassword() {
         return password;
