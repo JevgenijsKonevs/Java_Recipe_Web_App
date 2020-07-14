@@ -32,6 +32,15 @@ public class Recipe {
     public Recipe() {
     }
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private Set<Comment> comments;
+
+    public Recipe(String title, Comment... comments) {
+        this.title = title;
+        for(Comment comment : comments) comment.setRecipe(this);
+        this.comments = Stream.of(comments).collect(Collectors.toSet());
+    }
+
 
     //TODO A way to store an image. Simple way?: auto generated file name stored as string
     // and images itself are stored in the resources. Then you find them by the name.
@@ -75,5 +84,13 @@ public class Recipe {
 
     public void setLikes(Set<Like> likes) {
         this.likes = likes;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

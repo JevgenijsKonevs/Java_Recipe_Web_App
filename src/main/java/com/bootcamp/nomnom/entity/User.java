@@ -31,6 +31,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Like> likes = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
+
     @Override
     public String getPassword() {
         return password;
@@ -51,6 +54,14 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -82,20 +93,12 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public Set<Recipe> getRecipes() {
         return recipes;
     }
 
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Set<Like> getLikes() {
@@ -107,5 +110,13 @@ public class User implements UserDetails {
     }
 
     public User() {
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }
