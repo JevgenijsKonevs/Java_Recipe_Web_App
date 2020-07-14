@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "recipe_comment")
-public class Comment implements Serializable {
+@Table(name = "recipe_like")
+public class Like implements Serializable {
 
     @Id
     @ManyToOne
@@ -18,29 +18,29 @@ public class Comment implements Serializable {
     @JoinColumn
     private User user;
 
-    private String recipeComment;
+    private boolean recipeLike;
 
-    public Comment(User user, String recipeComment) {
+    public Like(User user, boolean recipeLike) {
         this.user = user;
-        this.recipeComment = recipeComment;
+        this.recipeLike = recipeLike;
     }
 
-    public Comment() {
+    public Like() {
     }
 
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
-        if(!(o instanceof Comment)) return false;
-        Comment that = (Comment) o;
+        if(!(o instanceof Like)) return false;
+        Like that = (Like) o;
         return Objects.equals(recipe.getId(), that.recipe.getId()) &&
                 Objects.equals(user.getId(), that.user.getId()) &&
-                Objects.equals(recipeComment, that.recipeComment);
+                Objects.equals(recipeLike, that.recipeLike);
     }
 
     @Override
     public int hashCode() {
-        return(Objects.hash(recipe.getId(), user.getId(), recipeComment));
+        return(Objects.hash(recipe.getId(), user.getId(), recipeLike));
     }
 
     public Recipe getRecipe() {
@@ -59,12 +59,12 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
-    public String getRecipeComment() {
-        return recipeComment;
+    public boolean getRecipeLike() {
+        return recipeLike;
     }
 
-    public void setRecipeComment(String recipeComment) {
-        this.recipeComment = recipeComment;
+    public void setRecipeLike(boolean recipeLike) {
+        this.recipeLike = recipeLike;
     }
 
 }

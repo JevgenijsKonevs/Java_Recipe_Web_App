@@ -12,11 +12,25 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     @Lob
     private String recipeBody;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private Set<Like> likes;
+
+    public Recipe(String title, Like... likes) {
+        this.title = title;
+        for(Like like : likes) like.setRecipe(this);
+        this.likes = Stream.of(likes).collect(Collectors.toSet());
+    }
+
+    public Recipe() {
+    }
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<Comment> comments;
@@ -64,5 +78,19 @@ public class Recipe {
         this.recipeBody = recipeBody;
     }
 
+    public Set<Like> getLikes() {
+        return likes;
+    }
 
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 }

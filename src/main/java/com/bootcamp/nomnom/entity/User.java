@@ -25,8 +25,11 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Recipe> recipes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Like> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
@@ -96,6 +99,17 @@ public class User implements UserDetails {
 
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    public User() {
     }
 
     public Set<Comment> getComments() {
