@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Need to think of better title...</title>
+</head>
+<body>
+    <!-- user image -->
+    <img>
+    <!-- username -->
+    <h3 th:text="${username}"></h3>
+    <!-- show only if user has created any recipes -->
+    <div th:unless="${recipes.empty}">
+        <div th:each="recipe : ${recipes}">
+            <!-- recipe image -->
+            <img>
+            <!-- recipe title -->
+            <h3 th:text="${recipe.title}"></h3>
+        </div>
+    </div>
+</body>
+</html>
