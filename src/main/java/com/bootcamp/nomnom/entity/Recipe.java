@@ -17,6 +17,8 @@ public class Recipe {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private String fileName;
+
     @Lob
     private String recipeBody;
 
@@ -68,6 +70,14 @@ public class Recipe {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getRecipeBody() {
