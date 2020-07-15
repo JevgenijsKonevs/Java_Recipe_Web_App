@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+html,body {
+	height: 100%;
+	width: 100%;
+	font-family: 'Poppins', sans-serif;
+	color:#000808;
+}
+.navbar{
+	padding: .8rem;
+	
+  }
+  .navbar-nav li{
+  padding-right: 20px;
+  }
+  .nav-link{
+	font-size: 1.1em !important;
+  }
+  
+  .logo-container {
+	width: 300px;
+	height: auto;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+  
+  }
+  
+  /* resize images */
+  .logo-container img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+  }
+  img {
+	width:100%;
+	height:auto;
+  }
+  .btn-primary {
+	  background-color: #ffb6b9;
+	  border: 1px solid #ffb6b9;
+  }
+  .btn-primary:hover {
+	  background-color: #f4dada;
+	  border: 1px solid #f4dada;
+  }
+body.my-login-page {
+	background-color: #f4dada;
+	font-size: 14px;
+}
+
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
+
+.my-login-page .brand img {
+	width: 100%;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card :hover {
+	border-color: #f4dada;
+}
+.my-login-page .card.fat {
+	padding: 10px;
+}
+
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+.forgot {
+	padding-top: 70px;
+	max-width: 53%;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+}
