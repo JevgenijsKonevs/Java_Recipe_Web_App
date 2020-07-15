@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="utf-8">
@@ -21,7 +21,7 @@
 			<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="login.html">User Profile</a>
+						<a class="nav-link" th:action="@{/login}">User Profile</a>
 					</li>
 				</ul>
 			</div>
@@ -57,7 +57,7 @@
 				<div class="card">
 					<div class="card-horizontal">
 						<div class="card-header">
-							<h4 class="card-title" style="text-align:right">Recipe title</h4>
+							<h4 class="card-title" style="text-align:right" th:text="${recipe.title}">Recipe title</h4>
 						</div>
 						<div class="img-square-wrapper">
 							<img class="img-responsive" src="../static/img/rec1.jpg" alt="Card image cap">
@@ -71,7 +71,7 @@
 				<div class="card">
 					<div class="card-horizontal">
 						<div class="card-header">
-							<h4 class="card-title" style="text-align:right">Recipe title</h4>
+							<h4 class="card-title" style="text-align:right" th:text="${recipe.title}">Recipe title</h4>
 						</div>
 						<div class="img-square-wrapper">
 							<img class="img-responsive" src="../static/img/rec1.jpg" alt="Card image cap">
@@ -84,7 +84,7 @@
 					<div class="card">
 						<div class="card-horizontal">
 							<div class="card-header">
-								<h4 class="card-title" style="text-align:right">Recipe title</h4>
+								<h4 class="card-title" style="text-align:right" th:text="${recipe.title}">Recipe title</h4>
 							</div>
 							<div class="img-square-wrapper">
 								<img class="img-responsive" src="../static/img/rec1.jpg" alt="Card image cap">
@@ -98,7 +98,7 @@
 					<div class="card">
 						<div class="card-horizontal">
 							<div class="card-header">
-								<h4 class="card-title" style="text-align:right">Recipe title</h4>
+								<h4 class="card-title" style="text-align:right" th:text="${recipe.title}">Recipe title</h4>
 							</div>
 							<div class="img-square-wrapper">
 								<img class="img-responsive" src="../static/img/rec1.jpg" alt="Card image cap">
