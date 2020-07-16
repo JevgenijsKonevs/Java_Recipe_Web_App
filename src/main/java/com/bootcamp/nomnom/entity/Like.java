@@ -1,46 +1,36 @@
 package com.bootcamp.nomnom.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
+@IdClass(Like.class)
 @Table(name = "recipe_like")
 public class Like implements Serializable {
 
-    @Id
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Id
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private boolean recipeLike;
 
-    public Like(User user, boolean recipeLike) {
-        this.user = user;
-        this.recipeLike = recipeLike;
-    }
-
     public Like() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(!(o instanceof Like)) return false;
-        Like that = (Like) o;
-        return Objects.equals(recipe.getId(), that.recipe.getId()) &&
-                Objects.equals(user.getId(), that.user.getId()) &&
-                Objects.equals(recipeLike, that.recipeLike);
-    }
-
-    @Override
-    public int hashCode() {
-        return(Objects.hash(recipe.getId(), user.getId(), recipeLike));
     }
 
     public Recipe getRecipe() {
@@ -67,4 +57,11 @@ public class Like implements Serializable {
         this.recipeLike = recipeLike;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

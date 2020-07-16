@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Need to think about title...</title>
+</head>
+<body>
+    <!-- recipe image -->
+    <img>
+    <!-- recipe title -->
+    <h2 th:text="${title}"></h2>
+    <!-- recipe description -->
+    <p th:text="${recipeBody}"></p>
+    <!-- show edit and delete buttons if logged in user is the creator of recipe -->
+    <div th:if="${user.id == recipe.user_id}">
+        <a href="@{recipe/delete/{recipeId}(recipeId = ${recipe.id}">Delete</a>
+        <a href="@{recipe/edit/{recipeId}(recipeId = ${recipe.id}">Edit</a>
+    </div>
+</body>
+</html>
