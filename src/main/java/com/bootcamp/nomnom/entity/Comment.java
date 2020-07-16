@@ -1,22 +1,29 @@
 package com.bootcamp.nomnom.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @IdClass(Comment.class)
 @Table(name = "recipe_comment")
 public class Comment implements Serializable {
 
-    @Id
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Id
+
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Id
@@ -25,28 +32,9 @@ public class Comment implements Serializable {
 
     private String recipeComment;
 
-    public Comment(User user, String recipeComment) {
-        this.user = user;
-        this.recipeComment = recipeComment;
-    }
-
     public Comment() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(!(o instanceof Comment)) return false;
-        Comment that = (Comment) o;
-        return Objects.equals(recipe.getId(), that.recipe.getId()) &&
-                Objects.equals(user.getId(), that.user.getId()) &&
-                Objects.equals(recipeComment, that.recipeComment);
-    }
-
-    @Override
-    public int hashCode() {
-        return(Objects.hash(recipe.getId(), user.getId(), recipeComment));
-    }
 
     public Recipe getRecipe() {
         return recipe;
