@@ -48,10 +48,10 @@ public class RecipeService {
     //TODO: need to make so that if no file is uploaded for recipe then we use some sort of default image
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String dir = RecipeService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
         if (ImageIO.read(file.getInputStream()) != null) {
             String fileName = StringGenerator.getRandomFilename(file);
-            Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
+            Path absolutePath = Paths.get(".");
+            Path filePath = Paths.get(absolutePath + "/src/main/resources/static/images/recipe/" + fileName);
             try {
                 Files.write(filePath, file.getBytes());
                 recipe.setFileName(fileName);
