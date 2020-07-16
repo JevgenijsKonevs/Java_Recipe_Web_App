@@ -14,11 +14,15 @@ public class RecipeLikeService {
         return like;
     }
 
-    //not figured out
-    public String updateLikeRegister(Long id) {
+
+    public boolean updateLikeRegister(Long id, boolean like) {
         Like likeToUpdate = likeRepository.getOne(id);
-        likeRepository.delete(likeToUpdate);
-        return "Like updated";
+        if (likeToUpdate.getRecipeLike()) {
+            likeToUpdate.setRecipeLike(false);
+        } else {
+            likeToUpdate.setRecipeLike(true);
+        }
+        return likeToUpdate.getRecipeLike();
     }
 
 }
