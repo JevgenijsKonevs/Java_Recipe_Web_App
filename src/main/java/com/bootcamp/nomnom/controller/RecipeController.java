@@ -1,34 +1,40 @@
 package com.bootcamp.nomnom.controller;
 
-import com.bootcamp.nomnom.entity.Recipe;
-import com.bootcamp.nomnom.entity.User;
-import com.bootcamp.nomnom.repository.RecipeRepository;
-import com.bootcamp.nomnom.util.StringGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.imageio.ImageIO;
+
+import com.bootcamp.nomnom.service.RecipeService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.bootcamp.nomnom.entity.Recipe;
+import com.bootcamp.nomnom.entity.User;
+import com.bootcamp.nomnom.repository.RecipeRepository;
+import com.bootcamp.nomnom.util.StringGenerator;
+
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
 
-    public static String dir = RecipeController.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
-
     @Autowired
-    private RecipeRepository recipeRepository;
+    private RecipeService recipeService;
 
-    /* service methods */
     @GetMapping()
     public String getAllRecipes(Model model) {
-        model.addAttribute("recipes", recipeRepository.findAll());
         return "recipes";
     }
 
@@ -44,28 +50,8 @@ public class RecipeController {
 
     @PostMapping()
     public String postRecipe(@ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) throws IOException {
-
-        if(ImageIO.read(file.getInputStream()) != null) {
-            String fileName = StringGenerator.getRandomFilename(file);
-            Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
-
-            try {
-                Files.write(filePath, file.getBytes());
-                recipe.setFileName(fileName);
-                recipe.setUser(user);
-                recipeRepository.save(recipe);
-            } catch (Exception e) {
-                // need proper handling...
-                e.printStackTrace();
-                return "new-recipe";
-            }
-            // need to redirect to recipe page...
-            return "redirect:/recipe";
-
-        } else {
-            return "new-recipe";
-        }
-
+        recipeService.saveRecipe(recipe,user,file);
+        return "";
     }
 
     @PostMapping("/update/{recipeId}")
