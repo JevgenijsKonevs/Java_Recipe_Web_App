@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+</head>
+<body>
+    <!-- show only if model attribute "recipes" is not empty -->
+    <div th:unless="${recipes.empty}">
+        <div th:each="recipe : ${recipes}">
+            <!-- recipe image -->
+            <img>
+            <!-- recipe title -->
+            <h3 th:text="${recipe.title}"></h3>
+        </div>
+    </div>
+</body>
+</html>

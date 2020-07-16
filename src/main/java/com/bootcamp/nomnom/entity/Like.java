@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@IdClass(Like.class)
 @Table(name = "recipe_like")
 public class Like implements Serializable {
 
@@ -17,6 +18,10 @@ public class Like implements Serializable {
     @ManyToOne
     @JoinColumn
     private User user;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private boolean recipeLike;
 
@@ -67,4 +72,11 @@ public class Like implements Serializable {
         this.recipeLike = recipeLike;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
