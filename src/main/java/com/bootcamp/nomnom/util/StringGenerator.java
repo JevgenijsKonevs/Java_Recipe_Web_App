@@ -10,8 +10,8 @@ public class StringGenerator {
 
         StringBuilder sb = new StringBuilder(8);
 
-        for(int i = 0; i < 8; i++) {
-            int index = (int)(symbols.length() * Math.random());
+        for (int i = 0; i < 8; i++) {
+            int index = (int) (symbols.length() * Math.random());
             sb.append(symbols.charAt(index));
         }
 

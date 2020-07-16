@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,7 +49,7 @@ public class RecipeService {
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
         String dir = RecipeService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
-        if(ImageIO.read(file.getInputStream()) != null) {
+        if (ImageIO.read(file.getInputStream()) != null) {
             String fileName = StringGenerator.getRandomFilename(file);
             Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
             try {
@@ -83,6 +82,14 @@ public class RecipeService {
     }
 
     public void deleteRecipe(Recipe recipe) {
+        Set<Like> recipeLikes = likeRepository.findByRecipe_Id(recipe.getId());
+        Set<Comment> recipeComments = commentRepository.findByRecipe_Id(recipe.getId());
+        for (Like like : recipeLikes) {
+            likeRepository.delete(like);
+        }
+        for (Comment comment : recipeComments) {
+            commentRepository.delete(comment);
+        }
         recipeRepository.delete(recipe);
     }
 
@@ -90,6 +97,8 @@ public class RecipeService {
         return commentRepository.findByRecipe_Id(id);
     }
 
-    public Set<Like> getAllLikes(Long id) { return likeRepository.findByRecipe_Id(id); }
+    public Set<Like> getAllLikes(Long id) {
+        return likeRepository.findByRecipe_Id(id);
+    }
 
 }

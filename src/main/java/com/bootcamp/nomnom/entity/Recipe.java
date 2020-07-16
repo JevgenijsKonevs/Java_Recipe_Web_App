@@ -1,9 +1,15 @@
 package com.bootcamp.nomnom.entity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
 public class Recipe {
@@ -25,24 +31,11 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<Like> likes;
 
-    public Recipe(String title, Like... likes) {
-        this.title = title;
-        for(Like like : likes) like.setRecipe(this);
-        this.likes = Stream.of(likes).collect(Collectors.toSet());
-    }
-
     public Recipe() {
     }
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private Set<Comment> comments;
-
-    public Recipe(String title, Comment... comments) {
-        this.title = title;
-        for(Comment comment : comments) comment.setRecipe(this);
-        this.comments = Stream.of(comments).collect(Collectors.toSet());
-    }
-
 
     public Long getId() {
         return id;

@@ -1,10 +1,10 @@
 package com.bootcamp.nomnom.service;
 
-import javax.persistence.EntityNotFoundException;
-
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.EntityNotFoundException;
 
 public class LikeService {
 
@@ -22,7 +22,7 @@ public class LikeService {
         likeRepository.delete(likeToUpdate);
     }
 
-    public Like updateLike(Like like){
+    public Like updateLike(Like like) {
         likeRepository.save(like);
         return like;
     }
