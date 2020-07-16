@@ -9,12 +9,12 @@ import java.util.Objects;
 @Table(name = "recipe_comment")
 public class Comment implements Serializable {
 
-    @Id
+
     @ManyToOne
     @JoinColumn
     private Recipe recipe;
 
-    @Id
+
     @ManyToOne
     @JoinColumn
     private User user;

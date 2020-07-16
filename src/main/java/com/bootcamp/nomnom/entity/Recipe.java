@@ -44,10 +44,6 @@ public class Recipe {
     }
 
 
-    //TODO A way to store an image. Simple way?: auto generated file name stored as string
-    // and images itself are stored in the resources. Then you find them by the name.
-
-
     public Long getId() {
         return id;
     }

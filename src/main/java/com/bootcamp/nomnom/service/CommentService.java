@@ -8,20 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-public class RecipeCommentService {
+import javax.persistence.EntityNotFoundException;
+
+public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comment saveCommentRegister(Comment comment) {
+    public Comment saveComment(Comment comment) {
         commentRepository.save(comment);
         return comment;
     }
 
-    public String deleteCommentRegister(Long id) {
-        Comment commentToDelete = commentRepository.getOne(id);
+    public void deleteComment(Long id) {
+        Comment commentToDelete = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id.toString()));
         commentRepository.delete(commentToDelete);
-        return "Comment deleted";
     }
 
 }

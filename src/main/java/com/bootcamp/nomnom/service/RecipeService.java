@@ -5,6 +5,7 @@ import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.CommentRepository;
+import com.bootcamp.nomnom.repository.LikeRepository;
 import com.bootcamp.nomnom.repository.RecipeRepository;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +34,9 @@ public class RecipeService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private LikeRepository likeRepository;
+
     public Recipe getRecipeById(Long id) {
         return recipeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id.toString()));
@@ -39,23 +46,29 @@ public class RecipeService {
         return recipeRepository.findByUser_Id(id);
     }
 
-    public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) {
+    //TODO: need to make so that if no file is uploaded for recipe then we use some sort of default image
+    //TODO: proper returns and error handling
+    public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
         String dir = RecipeService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
+        if(ImageIO.read(file.getInputStream()) != null) {
+            String fileName = StringGenerator.getRandomFilename(file);
+            Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
+            try {
+                Files.write(filePath, file.getBytes());
+                recipe.setFileName(fileName);
+                recipe.setUser(user);
+                recipeRepository.save(recipe);
+                return recipe;
+            } catch (Exception e) {
+                // need proper handling...
+                e.printStackTrace();
+            }
+            // need to redirect to recipe page...
 
-        String fileName = StringGenerator.getRandomFilename(file);
-        Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
-
-        try {
-            Files.write(filePath, file.getBytes());
-            recipe.setFileName(fileName);
-            recipe.setUser(user);
-            recipeRepository.save(recipe);
-            return recipe;
-        } catch (Exception e) {
-            // need proper handling...
-            e.printStackTrace();
+        } else {
             return null;
         }
+        return recipe;
     }
 
     public Recipe updateRecipe(Recipe recipe) {
@@ -77,6 +90,6 @@ public class RecipeService {
         return commentRepository.findByRecipe_Id(id);
     }
 
-    //public Set<Like> getAllLikes(Long id) {}
+    public Set<Like> getAllLikes(Long id) { return likeRepository.findByRecipe_Id(id); }
 
 }
