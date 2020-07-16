@@ -7,9 +7,12 @@ html,body {
   color:#000808;
 }
 body { 
-  /* The image used */
   background-color: #f4dada;
 }
+a {
+  color: #ff989b;
+}
+
 .navbar{
   padding: .8rem;
   
@@ -25,7 +28,7 @@ padding-right: 20px;
 .logo-container {
   width: 300px;
   height: auto;
-  display: inline-block;
+  display: block;
   margin-left: auto;
   margin-right: auto;
 
@@ -39,11 +42,11 @@ padding-right: 20px;
   margin-left: auto;
   margin-right: auto;
 }
-img {
+
+.img-square-wrapper img {
   width:100%;
   height:auto;
 }
-
 .card-horizontal {
   display: block;
   flex: 1 1 auto;
@@ -59,7 +62,36 @@ img {
   background-color : #e9bebe;
   border: 1px solid #ffb6b9;
 }
+.btn-secondary {
+  background-color: #ffb6b9;
+  border: 1px solid #ffb6b9;
+}
+.btn-secondary:hover {
+  background-color: #eea1a1;
+  border: 1px solid #f4dada;
+}
 
+.btn-secondary-sm {
+  background-color: #e6dfdf;
+  border: 1px solid #ffb6b9;
+}
+.btn-secondary-sm:hover {
+  background-color: #f0e9e9;
+  border: 1px solid #f4dada;
+}
+.custom-file-control{
+  background-color: #ffb6b9;
+  border: 1px solid #f16262;
+  color:#ffffff;
+}
+.mt-4{
+  background-color : #e9bebe;
+  border: 1px solid #ffb6b9;
+}
+.float-right img {
+  height: 30px;
+  width: 30px;
+}
 /*---Media Queries --*/
 @media (max-width: 992px) {
 
@@ -75,7 +107,6 @@ img {
 [class*="col-"] {
     padding: 1rem;
 }
-
 
 /*
 Extra small (xs) devices (portrait phones, less than 576px)

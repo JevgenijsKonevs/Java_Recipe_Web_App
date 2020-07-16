@@ -70,10 +70,15 @@
           by
           <a href="#">Recipe author</a>
         </p>
-
-        <!-- Date/Time -->
+        <div class="float-right" id="rating">
+          <button class="like"><img src="../static/img/like.png"></button>
+          <span class="likes">0</span>
+          <button class="dislike"><img src="../static/img/dislike.png"></button>
+          <span class="dislikes">0</span>
+      </div>
         <p>Posted on [Date]</p>
-
+        <!-- Date/Time -->
+        
         <hr>
 
         <!-- Recipe Image -->
@@ -92,7 +97,8 @@
         <p>Descripton</p>
 
         <hr>
-
+       
+      
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
@@ -202,7 +208,9 @@
 
   </div>
   <!-- /.container -->
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="../static/js/like-dislike.js"></script>
+  <script src="../static/js/like-dislike-counter.js"></script>
 </body>
 
 </html>
