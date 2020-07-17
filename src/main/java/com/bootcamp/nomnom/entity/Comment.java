@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @Table(name = "recipe_comment")
 public class Comment implements Serializable {
 
-
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;

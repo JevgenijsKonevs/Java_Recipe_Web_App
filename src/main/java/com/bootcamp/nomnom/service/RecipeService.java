@@ -115,7 +115,8 @@ public class RecipeService {
         return recipe;
     }
 
-    public void deleteRecipe(Recipe recipe) {
+    public void deleteRecipeById(Long id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Set<Like> recipeLikes = likeRepository.findByRecipe_Id(recipe.getId());
         Set<Comment> recipeComments = commentRepository.findByRecipe_Id(recipe.getId());
         for (Like like : recipeLikes) {
