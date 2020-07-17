@@ -8,15 +8,14 @@
     color: #333;
 }
 .well {
-    border: 0;
+    border: 1px solid #ffb6b9;
     padding: 20px;
     min-height: 63px;
-    background: #fff;
+    background: #e9bebe;
     box-shadow: none;
     border-radius: 3px;
     position: relative;
     max-height: 100000px;
-    border-bottom: 2px solid #ccc;
     transition: max-height 0.5s ease;
     -o-transition: max-height 0.5s ease;
     -ms-transition: max-height 0.5s ease;
