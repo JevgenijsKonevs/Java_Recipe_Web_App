@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
 public class RecipeServiceTest {
 
     @Mock
@@ -89,7 +88,7 @@ public class RecipeServiceTest {
         when(likeRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(like)));
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
 
-        recipeService.deleteRecipe(recipe);
+        recipeService.deleteRecipeById(recipe.getId());
         verify(likeRepository, atLeastOnce()).delete(any(Like.class));
         verify(commentRepository, atLeastOnce()).delete(any(Comment.class));
         verify(recipeRepository, atLeastOnce()).delete(any(Recipe.class));
