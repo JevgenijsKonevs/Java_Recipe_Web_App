@@ -4,6 +4,7 @@ import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
+import org.springframework.mock.web.MockMultipartFile;
 
 public class ServiceTestData {
 
@@ -13,6 +14,7 @@ public class ServiceTestData {
     public static final String TEST_FILE_NAME = "TestFileName";
     public static final String TEST_TITLE = "TestTitle";
     public static final String TEST_RECIPE_COMMENT = "Test recipe comment!";
+    public static final String TEST_FILENAME = "testFilename.png";
 
     public static User getUser() {
         User user = new User();
@@ -45,5 +47,9 @@ public class ServiceTestData {
         comment.setRecipeComment(TEST_RECIPE_COMMENT);
         comment.setUser(getUser());
         return comment;
+    }
+
+    public static MockMultipartFile getMockMultipartFile (String content) {
+        return new MockMultipartFile("fileName", TEST_FILENAME, null, content.getBytes());
     }
 }

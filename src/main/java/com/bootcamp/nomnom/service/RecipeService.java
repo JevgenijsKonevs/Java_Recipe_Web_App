@@ -83,8 +83,8 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe updateRecipePicture(Recipe recipe, MultipartFile file) throws IOException {
-        if(file.isEmpty()) {
+    public Recipe updateRecipePicture(Recipe recipe, MultipartFile file) {
+        if (file.isEmpty()) {
             return recipe;
         } else {
             String toDelete = recipe.getFileName();
