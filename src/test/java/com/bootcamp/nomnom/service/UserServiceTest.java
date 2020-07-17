@@ -17,7 +17,6 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class UserServiceTest {
 
     @InjectMocks
@@ -29,22 +28,20 @@ public class UserServiceTest {
     @Mock
     PasswordEncoder passwordEncoder;
 
-    private User testUser1;
+    private User testUser;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.initMocks(this);
 
-        testUser1 = new User();
-        testUser1.setPassword("testPassword");
-        testUser1.setUsername("testUsername");
+        testUser = ServiceTestData.getUser();
     }
 
     @Test
     void loadUserByUsernameTest(){
-        when(userRepository.findByUsername(anyString())).thenReturn(testUser1);
+        when(userRepository.findByUsername(anyString())).thenReturn(testUser);
 
-        userService.loadUserByUsername("testUsername");
+        userService.loadUserByUsername(ServiceTestData.TEST_USERNAME);
         //We only check the invocation count because it returns weird object UserDetails. It will be the only weird place in the code
         verify(userRepository,atLeastOnce()).findByUsername(anyString());
     }
@@ -52,12 +49,12 @@ public class UserServiceTest {
     //Use this one as a good example of an unit test :)
     @Test
     void savingUserWhenRegisterTest(){
-        when(passwordEncoder.encode(anyString())).thenReturn("testUsername");
-        when(userRepository.save(any(User.class))).thenReturn(testUser1);
+        when(passwordEncoder.encode(anyString())).thenReturn(ServiceTestData.TEST_USERNAME);
+        when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        User userSaved = userService.saveUserRegister(testUser1);
+        User userSaved = userService.saveUserRegister(testUser);
 
-        assertEquals(userSaved,testUser1);
+        assertEquals(userSaved, testUser);
     }
 
 }

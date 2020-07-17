@@ -3,9 +3,11 @@ package com.bootcamp.nomnom.service;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
+@Service
 public class LikeService {
 
     @Autowired

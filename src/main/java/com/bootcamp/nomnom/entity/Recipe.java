@@ -1,6 +1,5 @@
 package com.bootcamp.nomnom.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,13 +27,13 @@ public class Recipe {
     @Lob
     private String recipeBody;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe")
     private Set<Like> likes;
 
     public Recipe() {
     }
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe")
     private Set<Comment> comments;
 
     public Long getId() {

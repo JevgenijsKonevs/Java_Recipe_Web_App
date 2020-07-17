@@ -24,6 +24,8 @@ import java.util.Set;
 @Service
 public class RecipeService {
 
+    private Path absolutePath = Paths.get("./src/main/resources/static/images/recipe");
+
     @Autowired
     private RecipeRepository recipeRepository;
 
@@ -45,28 +47,34 @@ public class RecipeService {
         return recipeRepository.findByUser_Id(id);
     }
 
-    //TODO: need to make so that if no file is uploaded for recipe then we use some sort of default image
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String dir = RecipeService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
-        if (ImageIO.read(file.getInputStream()) != null) {
-            String fileName = StringGenerator.getRandomFilename(file);
-            Path filePath = Paths.get(dir + "/recipe-photos/" + fileName);
-            try {
-                Files.write(filePath, file.getBytes());
-                recipe.setFileName(fileName);
-                recipe.setUser(user);
-                recipeRepository.save(recipe);
-                return recipe;
-            } catch (Exception e) {
-                // need proper handling...
-                e.printStackTrace();
-            }
-            // need to redirect to recipe page...
-
+        if (file.isEmpty()) {
+            recipe.setFileName("default.png");
+            recipe.setUser(user);
+            recipeRepository.save(recipe);
+            return recipe;
         } else {
-            return null;
+            if (ImageIO.read(file.getInputStream()) != null) {
+                String fileName = StringGenerator.getRandomFilename(file);
+                Path absolutePath = Paths.get(".") ;
+                Path filePath = Paths.get(absolutePath + "/src/main/resources/static/images/recipe/" + fileName);
+                try {
+                    Files.write(filePath, file.getBytes());
+                    recipe.setFileName(fileName);
+                    recipe.setUser(user);
+                    recipeRepository.save(recipe);
+                    return recipe;
+                } catch (Exception e) {
+                    // need proper handling...
+                    e.printStackTrace();
+                }
+
+            } else {
+                return null;
+            }
         }
+
         return recipe;
     }
 
@@ -75,13 +83,40 @@ public class RecipeService {
         return recipe;
     }
 
-    public void updateRecipePicture() {
-        //TODO write so it works with picture updating
-        //returns recipe, changed it to void for the time being
-        //so it doesn't throw errors
+    public Recipe updateRecipePicture(Recipe recipe, MultipartFile file) throws IOException {
+        if(file.isEmpty()) {
+            return recipe;
+        } else {
+            String toDelete = recipe.getFileName();
+            String fileName = StringGenerator.getRandomFilename(file);
+            Path filePath = Paths.get(absolutePath + "/" + fileName);
+            try {
+                Files.write(filePath, file.getBytes());
+                recipe.setFileName(fileName);
+                if(!("default.png".equals(toDelete))) {
+                    Path pathToDelete = Paths.get(absolutePath + "/" + toDelete);
+                    Files.delete(pathToDelete);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return recipe;
+        }
     }
 
-    public void deleteRecipe(Recipe recipe) {
+    public Recipe deleteRecipePicture(Recipe recipe) throws IOException {
+        if(!("default.png").equals(recipe.getFileName())) {
+            Path deletePath = Paths.get(absolutePath + "/" + recipe.getFileName());
+            Files.delete(deletePath);
+            recipe.setFileName("default.png");
+        }
+
+        return recipe;
+    }
+
+    public void deleteRecipeById(Long id) {
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Set<Like> recipeLikes = likeRepository.findByRecipe_Id(recipe.getId());
         Set<Comment> recipeComments = commentRepository.findByRecipe_Id(recipe.getId());
         for (Like like : recipeLikes) {

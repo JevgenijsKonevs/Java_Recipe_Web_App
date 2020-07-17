@@ -5,25 +5,23 @@
     <title>Need to think of better title</title>
 </head>
 <body>
-    <form th:action="@{recipe/update/{recipeId}(recipeId = ${recipe.id}" method="POST">
+    <form th:object="${recipe}" th:action="@{{recipeId}(recipeId = ${recipe.id})}" method="POST">
         <table>
             <tr>
                 <td>Title:</td>
-                <td><input type="text" name="title" value="*{title}" /></td>
+                <td><input type="text" name="title" th:field="*{title}" /></td>
             </tr>
             <tr>
                 <td>Description:</td>
                 <!--need to turn this into textarea-->
-                <td><input type="text" name="recipeBody" value="*{recipeBody}" /></td>
+                <td><input type="text" name="recipeBody" th:field="*{recipeBody}" /></td>
             </tr>
-            <!-- undefined behavior for image update for now...
             <tr>
-                <td><input type="file" name="file" accept="image/*"  required></td>
+                <td><input type="file" name="file" accept="image/*"></td>
                 <td colspan="2">
                     <input type="submit" value="Create recipe" />
                 </td>
             </tr>
-            -->
         </table>
     </form>
 </body>
