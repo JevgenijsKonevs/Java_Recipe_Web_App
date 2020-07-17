@@ -36,6 +36,10 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public boolean userExists(String username){
+        return userRepository.existsByUsername(username);
+    }
+
     //Based on the RecipeService saveRecipe method..
     public User saveProfilePhoto(User user, MultipartFile file) throws IOException {
         String dir = UserService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";

@@ -25,9 +25,8 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public String findUserProfile(@PathVariable("username") String username) {
-        //TODO: if the username the user is looking for matches their own username, redirect to profile page..
-        if (username.equals("currently logged in username")) {
+    public String findUserProfile(@PathVariable("username") String username, @AuthenticationPrincipal User user) {
+        if (username.equals(user.getUsername())) {
             return "profile";
         }
         return "user-page";

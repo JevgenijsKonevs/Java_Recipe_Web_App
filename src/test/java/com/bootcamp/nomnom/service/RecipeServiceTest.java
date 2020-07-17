@@ -132,8 +132,9 @@ public class RecipeServiceTest {
         when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
         when(likeRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(like)));
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
+        when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
 
-        recipeService.deleteRecipeById(recipe.getId());
+        recipeService.deleteRecipeById(ServiceTestData.TEST_ID);
         verify(likeRepository, atLeastOnce()).delete(any(Like.class));
         verify(commentRepository, atLeastOnce()).delete(any(Comment.class));
         verify(recipeRepository, atLeastOnce()).delete(any(Recipe.class));
