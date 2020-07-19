@@ -51,7 +51,7 @@ public class RecipeService {
 
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2","h3","h4","li","ul","ol"));
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2", "h3", "h4", "li", "ul", "ol"));
         recipe.setRecipeBody(sanitizedRecipeHTML);
         if (file.isEmpty()) {
             recipe.setFileName("default.png");
@@ -61,7 +61,7 @@ public class RecipeService {
         } else {
             if (ImageIO.read(file.getInputStream()) != null) {
                 String fileName = StringGenerator.getRandomFilename(file);
-                Path absolutePath = Paths.get(".") ;
+                Path absolutePath = Paths.get(".");
                 Path filePath = Paths.get(absolutePath + "/src/main/resources/static/images/recipe/" + fileName);
                 try {
                     Files.write(filePath, file.getBytes());
@@ -97,7 +97,7 @@ public class RecipeService {
             try {
                 Files.write(filePath, file.getBytes());
                 recipe.setFileName(fileName);
-                if(!("default.png".equals(toDelete))) {
+                if (!("default.png".equals(toDelete))) {
                     Path pathToDelete = Paths.get(absolutePath + "/" + toDelete);
                     Files.delete(pathToDelete);
                 }
@@ -110,7 +110,7 @@ public class RecipeService {
     }
 
     public Recipe deleteRecipePicture(Recipe recipe) throws IOException {
-        if(!("default.png").equals(recipe.getFileName())) {
+        if (!("default.png").equals(recipe.getFileName())) {
             Path deletePath = Paths.get(absolutePath + "/" + recipe.getFileName());
             Files.delete(deletePath);
             recipe.setFileName("default.png");

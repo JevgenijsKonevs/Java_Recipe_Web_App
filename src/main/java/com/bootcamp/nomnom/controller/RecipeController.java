@@ -1,19 +1,12 @@
 package com.bootcamp.nomnom.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Set;
-
-import javax.imageio.ImageIO;
-
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
+import com.bootcamp.nomnom.entity.Recipe;
+import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.service.CommentService;
 import com.bootcamp.nomnom.service.LikeService;
 import com.bootcamp.nomnom.service.RecipeService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,12 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.bootcamp.nomnom.entity.Recipe;
-import com.bootcamp.nomnom.entity.User;
-import com.bootcamp.nomnom.repository.RecipeRepository;
-import com.bootcamp.nomnom.util.StringGenerator;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.io.IOException;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/recipe")
@@ -72,7 +63,7 @@ public class RecipeController {
 
     @PostMapping()
     public String postRecipe(@ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) throws IOException {
-        recipeService.saveRecipe(recipe,user,file);
+        recipeService.saveRecipe(recipe, user, file);
         return "redirect:/";
     }
 
@@ -110,7 +101,7 @@ public class RecipeController {
     @GetMapping("/{recipeId}/comment/delete/{commentId}")
     public String deleteComment(@PathVariable("recipeId") Long recipeId, @PathVariable("commentId") Long commentId, @AuthenticationPrincipal User user) {
         Comment commentValidation = commentService.getCommentById(commentId);
-        if(!(user.getId()).equals(commentValidation.getUser().getId())){
+        if (!(user.getId()).equals(commentValidation.getUser().getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         commentService.deleteComment(commentId);
@@ -127,9 +118,9 @@ public class RecipeController {
         return "redirect:/recipe/" + recipeId;
     }
 
-    private void recipeValidation(Long recipeId, Long userId){
+    private void recipeValidation(Long recipeId, Long userId) {
         Recipe recipeTest = recipeService.getRecipeById(recipeId);
-        if(!recipeTest.getUser().getId().equals(userId)){
+        if (!recipeTest.getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }

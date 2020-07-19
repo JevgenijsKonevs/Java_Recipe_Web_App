@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+
 @Service
 public class CommentService {
 
@@ -23,7 +24,7 @@ public class CommentService {
         commentRepository.delete(commentToDelete);
     }
 
-    public Comment getCommentById(Long id){
+    public Comment getCommentById(Long id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id.toString()));
     }
