@@ -9,6 +9,8 @@ import com.bootcamp.nomnom.repository.LikeRepository;
 import com.bootcamp.nomnom.repository.RecipeRepository;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +51,8 @@ public class RecipeService {
 
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2","h3","h4","li","ul","ol"));
+        recipe.setRecipeBody(sanitizedRecipeHTML);
         if (file.isEmpty()) {
             recipe.setFileName("default.png");
             recipe.setUser(user);
