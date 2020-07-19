@@ -8,6 +8,7 @@ import com.bootcamp.nomnom.service.CommentService;
 import com.bootcamp.nomnom.service.LikeService;
 import com.bootcamp.nomnom.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -37,8 +39,19 @@ public class RecipeController {
     @Autowired
     private LikeService likeService;
 
-    @GetMapping()
+    @GetMapping("")
     public String getAllRecipes(Model model) {
+        return "redirect:/recipe/page/1";
+    }
+
+    @GetMapping("/page/{pageNumber}")
+    public String getRecipesOnPage(Model model, @PathVariable("pageNumber") int pageNumber) {
+        Page<Recipe> page = recipeService.listAll(pageNumber);
+        List<Recipe> recipeList = page.getContent();
+        int totalPages = page.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("recipes", recipeList);
         return "recipes";
     }
 
@@ -53,7 +66,7 @@ public class RecipeController {
         model.addAttribute("recipeComments", recipeComments);
         model.addAttribute("recipeLikes", recipeLikes);
         model.addAttribute("user", user);
-        return "recipe-page";
+        return "recipe";
     }
 
     @GetMapping("/new")
@@ -64,7 +77,7 @@ public class RecipeController {
     @PostMapping()
     public String postRecipe(@ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) throws IOException {
         recipeService.saveRecipe(recipe, user, file);
-        return "redirect:/";
+        return "redirect:/recipe/";
     }
 
     @GetMapping("/update/{recipeId}")
@@ -87,7 +100,7 @@ public class RecipeController {
     public String deleteRecipe(@PathVariable("recipeId") Long recipeId, @AuthenticationPrincipal User user) {
         recipeValidation(recipeId, user.getId());
         recipeService.deleteRecipeById(recipeId);
-        return "redirect:/";
+        return "redirect:/recipe/";
     }
 
     @PostMapping("/{recipeId}/comment")

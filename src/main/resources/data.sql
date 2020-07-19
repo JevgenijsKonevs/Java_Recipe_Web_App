@@ -5,8 +5,8 @@ insert into user_roles (user_id, role) values ('1', 'USER')
 insert into user_roles (user_id, role) values ('1', 'ADMIN')
 insert into user_roles (user_id, role) values ('2', 'USER')
 
-insert into recipe (id, file_name, recipe_body, title, user_id) values ('1', 'path', 'This very yummy cake!', 'Cake', '1')
-insert into recipe (id, file_name, recipe_body, title, user_id) values ('2', 'path', 'Nommie nommie brownie!', 'Brownie', '2')
+insert into recipe (id, file_name, recipe_body, title, user_id) values ('1', 'default.png', 'This very yummy cake!', 'Cake', '1')
+insert into recipe (id, file_name, recipe_body, title, user_id) values ('2', 'default.png', 'Nommie nommie brownie!', 'Brownie', '2')
 
 insert into recipe_like (id, recipe_like, user_id, recipe_id) values ('1', 'true', '1', '1')
 insert into recipe_like (id, recipe_like, user_id, recipe_id) values ('2', 'true', '2', '1')

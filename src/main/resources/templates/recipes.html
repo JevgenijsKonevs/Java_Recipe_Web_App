@@ -5,14 +5,19 @@
     <title>Recipes</title>
 </head>
 <body>
-    <!-- show only if model attribute "recipes" is not empty -->
+<!-- show only if model attribute "recipes" is not empty -->
     <div th:unless="${recipes.empty}">
         <div th:each="recipe : ${recipes}">
             <!-- recipe image -->
-            <img>
+            <img width="100" height="100" th:src="@{/images/recipe/{file}(file = ${recipe.fileName})}">
             <!-- recipe title -->
-            <h3 th:text="${recipe.title}"></h3>
+            <h3><a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a></h3>
         </div>
+    </div>
+
+    <div>
+        <a th:if="${currentPage > 1}" th:href="@{/recipe/page/{pageNumber}(pageNumber = ${currentPage-1})}">Previous</a>
+        <a th:if="${currentPage != totalPages}" th:href="@{/recipe/page/{pageNumber}(pageNumber = ${currentPage+1})}">Next</a>
     </div>
 </body>
 </html>
