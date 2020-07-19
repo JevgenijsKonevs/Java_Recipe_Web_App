@@ -13,9 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -39,9 +42,14 @@ public class RecipeServiceTest {
     @InjectMocks
     RecipeService recipeService;
 
+    private final String TEST_FILENAME_2 = "testFilename_2.png";
+    private final String ABSOLUTE_PATH = "./src/main/resources/static/images/recipe/";
+    private final String TEST_CONTENT = "This is test content";
+
     private Recipe recipe;
     private Like like;
     private Comment comment;
+    private MultipartFile multipartFile;
 
     @BeforeEach
     void setUp() {
@@ -84,7 +92,44 @@ public class RecipeServiceTest {
     }
 
     @Test
+    void updateRecipePictureOnEmptyFileTest() {
+        multipartFile = ServiceTestData.getMockMultipartFile("");
+        assertEquals(recipe, recipeService.updateRecipePicture(recipe, multipartFile));
+    }
+
+    @Test
+    void updateRecipePictureTest() throws IOException {
+        multipartFile = ServiceTestData.getMockMultipartFile(TEST_CONTENT);
+        recipe.setFileName(TEST_FILENAME_2);
+
+        Files.write(Paths.get(ABSOLUTE_PATH + recipe.getFileName()), multipartFile.getBytes());
+        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+
+        Recipe actual = recipeService.updateRecipePicture(recipe, multipartFile);
+
+        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + TEST_FILENAME_2)));
+        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+        assertNotEquals(TEST_FILENAME_2, recipeService.updateRecipePicture(recipe, multipartFile).getFileName());
+
+        Files.delete(Paths.get(ABSOLUTE_PATH + recipe.getFileName()));
+        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+    }
+
+    @Test
+    void deleteRecipePictureTest() throws IOException {
+        multipartFile = ServiceTestData.getMockMultipartFile(TEST_CONTENT);
+        recipe.setFileName(ServiceTestData.TEST_FILENAME);
+
+        Files.write(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME), multipartFile.getBytes());
+
+        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME)));
+        assertEquals("default.png", recipeService.deleteRecipePicture(recipe).getFileName());
+        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME)));
+    }
+
+    @Test
     void deleteRecipeTest() {
+        when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
         when(likeRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(like)));
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
         when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
@@ -96,10 +141,17 @@ public class RecipeServiceTest {
     }
 
     @Test
+    void deleteRecipeTestFails() {
+        assertThrows(EntityNotFoundException.class, () -> {
+            recipeService.deleteRecipeById(recipe.getId());
+        });
+    }
+
+    @Test
     void getAllCommentsTest() {
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
 
-        Set<Comment> actualComments = recipeService.getAllComments(ServiceTestData.TEST_ID);
+        Set<Comment> actualComments = recipeService.getAllComments(comment.getId());
         verify(commentRepository, atLeastOnce()).findByRecipe_Id(any(Long.class));
         assertEquals(1, actualComments.size());
         assertTrue(actualComments.contains(comment));

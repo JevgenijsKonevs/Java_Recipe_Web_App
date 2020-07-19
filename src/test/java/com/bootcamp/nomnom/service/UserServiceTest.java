@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -31,14 +32,14 @@ public class UserServiceTest {
     private User testUser;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         MockitoAnnotations.initMocks(this);
 
         testUser = ServiceTestData.getUser();
     }
 
     @Test
-    void loadUserByUsernameTest(){
+    void loadUserByUsernameTest() {
         when(userRepository.findByUsername(anyString())).thenReturn(testUser);
 
         userService.loadUserByUsername(ServiceTestData.TEST_USERNAME);
@@ -48,13 +49,19 @@ public class UserServiceTest {
 
     //Use this one as a good example of an unit test :)
     @Test
-    void savingUserWhenRegisterTest(){
+    void savingUserWhenRegisterTest() {
         when(passwordEncoder.encode(anyString())).thenReturn(ServiceTestData.TEST_USERNAME);
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
         User userSaved = userService.saveUserRegister(testUser);
 
         assertEquals(userSaved, testUser);
+    }
+
+    @Test
+    void userExistsTest() {
+        when(userRepository.existsByUsername(anyString())).thenReturn(true);
+        assertTrue(userService.userExists(ServiceTestData.TEST_USERNAME));
     }
 
 }
