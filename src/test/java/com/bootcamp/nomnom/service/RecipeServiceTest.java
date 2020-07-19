@@ -1,5 +1,6 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.TestData;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
@@ -54,28 +55,28 @@ public class RecipeServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipe = ServiceTestData.getRecipe();
-        like = ServiceTestData.getLike();
-        comment = ServiceTestData.getComment();
+        recipe = TestData.getRecipe();
+        like = TestData.getLike();
+        comment = TestData.getComment();
     }
 
     @Test
     void getRecipeByIdTest() {
         when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
-        assertEquals(recipe, recipeService.getRecipeById(ServiceTestData.TEST_ID));
+        assertEquals(recipe, recipeService.getRecipeById(TestData.TEST_ID));
     }
 
     @Test
     void getRecipeByIdTestFails() {
         assertThrows(EntityNotFoundException.class, () -> {
-            recipeService.getRecipeById(ServiceTestData.TEST_ID);
+            recipeService.getRecipeById(TestData.TEST_ID);
         });
     }
 
     @Test
     void getAllRecipeByUserTest() {
         when(recipeRepository.findByUser_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(recipe)));
-        Set<Recipe> actualRecipes = recipeService.getAllRecipeByUser(ServiceTestData.TEST_ID);
+        Set<Recipe> actualRecipes = recipeService.getAllRecipeByUser(TestData.TEST_ID);
         assertEquals(1, actualRecipes.size());
         assertTrue(actualRecipes.contains(recipe));
     }
@@ -93,13 +94,13 @@ public class RecipeServiceTest {
 
     @Test
     void updateRecipePictureOnEmptyFileTest() {
-        multipartFile = ServiceTestData.getMockMultipartFile("");
+        multipartFile = TestData.getMockMultipartFile("");
         assertEquals(recipe, recipeService.updateRecipePicture(recipe, multipartFile));
     }
 
     @Test
     void updateRecipePictureTest() throws IOException {
-        multipartFile = ServiceTestData.getMockMultipartFile(TEST_CONTENT);
+        multipartFile = TestData.getMockMultipartFile(TEST_CONTENT);
         recipe.setFileName(TEST_FILENAME_2);
 
         Files.write(Paths.get(ABSOLUTE_PATH + recipe.getFileName()), multipartFile.getBytes());
@@ -117,14 +118,14 @@ public class RecipeServiceTest {
 
     @Test
     void deleteRecipePictureTest() throws IOException {
-        multipartFile = ServiceTestData.getMockMultipartFile(TEST_CONTENT);
-        recipe.setFileName(ServiceTestData.TEST_FILENAME);
+        multipartFile = TestData.getMockMultipartFile(TEST_CONTENT);
+        recipe.setFileName(TestData.TEST_FILENAME);
 
-        Files.write(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME), multipartFile.getBytes());
+        Files.write(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME), multipartFile.getBytes());
 
-        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME)));
+        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME)));
         assertEquals("default.png", recipeService.deleteRecipePicture(recipe).getFileName());
-        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + ServiceTestData.TEST_FILENAME)));
+        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME)));
     }
 
     @Test
@@ -134,7 +135,7 @@ public class RecipeServiceTest {
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
         when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
 
-        recipeService.deleteRecipeById(ServiceTestData.TEST_ID);
+        recipeService.deleteRecipeById(TestData.TEST_ID);
         verify(likeRepository, atLeastOnce()).delete(any(Like.class));
         verify(commentRepository, atLeastOnce()).delete(any(Comment.class));
         verify(recipeRepository, atLeastOnce()).delete(any(Recipe.class));
@@ -161,7 +162,7 @@ public class RecipeServiceTest {
     void getAllLikesTest() {
         when(likeRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(like)));
 
-        Set<Like> actualComments = recipeService.getAllLikes(ServiceTestData.TEST_ID);
+        Set<Like> actualComments = recipeService.getAllLikes(TestData.TEST_ID);
         verify(likeRepository, atLeastOnce()).findByRecipe_Id(any(Long.class));
         assertEquals(1, actualComments.size());
         assertTrue(actualComments.contains(like));

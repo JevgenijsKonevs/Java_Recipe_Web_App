@@ -1,5 +1,6 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.TestData;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.repository.LikeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ public class LikeServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        like = ServiceTestData.getLike();
+        like = TestData.getLike();
 
         when(likeRepository.save(any(Like.class))).thenReturn(like);
     }
@@ -44,7 +45,7 @@ public class LikeServiceTest {
     void deleteLikeByIdTest() {
         when(likeRepository.findById(any(Long.class))).thenReturn(Optional.of(like));
 
-        likeService.deleteLikeById(ServiceTestData.TEST_ID);
+        likeService.deleteLikeById(TestData.TEST_ID);
         verify(likeRepository, atLeastOnce()).findById(any(Long.class));
         verify(likeRepository, atLeastOnce()).delete(any(Like.class));
     }
@@ -52,7 +53,7 @@ public class LikeServiceTest {
     @Test
     void deleteLikeByIdTestFails() {
         assertThrows(EntityNotFoundException.class, () -> {
-            likeService.deleteLikeById(ServiceTestData.TEST_ID);
+            likeService.deleteLikeById(TestData.TEST_ID);
         });
     }
 

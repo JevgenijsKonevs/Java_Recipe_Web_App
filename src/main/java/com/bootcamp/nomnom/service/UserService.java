@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean userExists(String username){
+    public boolean userExists(String username) {
         return userRepository.existsByUsername(username);
     }
 

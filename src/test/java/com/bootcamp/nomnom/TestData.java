@@ -1,4 +1,4 @@
-package com.bootcamp.nomnom.service;
+package com.bootcamp.nomnom;
 
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
@@ -6,7 +6,7 @@ import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import org.springframework.mock.web.MockMultipartFile;
 
-public class ServiceTestData {
+public class TestData {
 
     public static final long TEST_ID = 1234L;
     public static final String TEST_USERNAME = "TestUsername";
