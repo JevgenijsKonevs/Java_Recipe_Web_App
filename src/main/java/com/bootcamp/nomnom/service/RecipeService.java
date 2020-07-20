@@ -12,6 +12,9 @@ import com.bootcamp.nomnom.util.StringGenerator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +50,11 @@ public class RecipeService {
 
     public Set<Recipe> getAllRecipeByUser(Long id) {
         return recipeRepository.findByUser_Id(id);
+    }
+
+    public Page<Recipe> listAll(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 3);
+        return recipeRepository.findAll(pageable);
     }
 
     //TODO: proper returns and error handling
