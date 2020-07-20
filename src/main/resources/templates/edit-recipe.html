@@ -17,9 +17,12 @@
                 <td><input type="text" name="recipeBody" th:field="*{recipeBody}" /></td>
             </tr>
             <tr>
+                <td><input hidden th:name="user" th:field="*{user.id}" /></td>
+            </tr>
+            <tr>
                 <td><input type="file" name="file" accept="image/*"></td>
                 <td colspan="2">
-                    <input type="submit" value="Create recipe" />
+                    <input type="submit" value="Update recipe" />
                 </td>
             </tr>
         </table>
