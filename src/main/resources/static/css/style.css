@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap');
+
+html, body {
+    height: 100%;
+	width: 100%;
+	font-family: 'Poppins', sans-serif;
+	color:#000808;
+}
+
+body {
+    background-color: #f4dada;
+}
+
+.navbar {
+	padding: .8rem;
+}
+
+.navbar-nav li {
+    padding-right: 20px;
+}
+
+.nav-link {
+	font-size: 1em !important;
+}
+
+.logo-container {
+	width: 300px;
+	height: auto;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* resize images */
+.logo-container img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img {
+	width:100%;
+	height:auto;
+}
+
+/* main page */
+.card-horizontal {
+    display: block;
+    flex: 1 1 auto;
+}
+
+.container {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
+
+.card-header {
+    background-color : white;
+    color: #4e4a4a;
+    font-family: 'Josefin Sans';
+    padding-top: 1.5rem;
+}
+
+.card-header h4 {
+    font-size: 1.7rem;
+}
+
+/* login and register */
+.card-body .btn-primary {
+    background-color: #ffb6b9;
+    border: 1px solid #ffb6b9;
+}
+
+.card-body .btn-primary:active {
+    background-color: #ffb6b9 !important;
+    border: 1px solid #ffb6b9 !important;
+}
+
+.card-body .btn-primary:hover {
+    background-color: #f4dada;
+    border: 1px solid #f4dada;
+}
+
+body.my-login-page {
+    background-image: url(/img/pattern_2.jpg) !important;
+    background-size: 15% !important;
+}
+
+.my-login-page a {
+    color: #ffb6b9;
+    text-decoration: none;
+}
+
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
+
+.my-login-page .brand img {
+	width: 100%;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card:hover {
+	border-color: #f4dada;
+}
+.my-login-page .card.fat {
+	padding: 10px;
+}
+
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+/* user page */
+.tab-pane .btn-primary {
+    background-color: #ffb6b9;
+    border: 1px solid #ffb6b9;
+}
+
+.tab-pane .btn-primary:hover {
+    background-color: #f16262;
+    border: 1px solid #f16262;
+}
+
+.tab-pane .btn-secondary-sm {
+    background-color: #e6dfdf;
+    border: 1px solid #ffb6b9;
+}
+
+.tab-pane .btn-secondary-sm:hover {
+    background-color: #f0e9e9;
+    border: 1px solid #f4dada;
+}
+
+.custom-file-control{
+    background-color: #ffb6b9;
+    border: 1px solid #f16262;
+    padding: 0.5rem 1rem;
+    color:#ffffff;
+}
+
+.nav-link {
+    color: #000808;
+}
+
+#user-tab {
+    background-color: white;
+    border: none;
+}
+
+#user-tab:hover {
+    background-color: #ffb6b9;
+    color: #000808;
+    transition: all 0.5s ease-in;
+}
+
+/*--- Bootstrap Padding Fix --*/
+[class*="col-"] {
+    padding: 1rem;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+}
