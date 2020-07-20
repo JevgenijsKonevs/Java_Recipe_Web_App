@@ -6,7 +6,7 @@
 </head>
 <body>
     <!-- user image -->
-    <img>
+    <img th:src="${img/user/{file}(file = ${user.fileName})}">
     <!-- username -->
     <h3 th:text="${username}"></h3>
     <!-- show only if user has created any recipes -->
