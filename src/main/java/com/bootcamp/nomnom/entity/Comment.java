@@ -1,18 +1,9 @@
 package com.bootcamp.nomnom.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 @Entity
-@IdClass(Comment.class)
 @Table(name = "recipe_comment")
 public class Comment implements Serializable {
 
@@ -29,6 +20,7 @@ public class Comment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     private String recipeComment;
 
     public Comment() {

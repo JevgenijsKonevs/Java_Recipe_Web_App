@@ -23,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping
     public String addUser(@ModelAttribute User user) {
-        if(userService.userExists(user.getUsername())){
+        if (userService.userExists(user.getUsername())) {
             //TODO: Add a way to tell user that such user already exists. Model? Redirect Attribute?
             return "redirect:/register";
         }

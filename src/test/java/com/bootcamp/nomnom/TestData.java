@@ -1,18 +1,21 @@
-package com.bootcamp.nomnom.service;
+package com.bootcamp.nomnom;
 
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
+import org.springframework.mock.web.MockMultipartFile;
 
-public class ServiceTestData {
+public class TestData {
 
-    public static final long TEST_ID = 1234L;
+    public static final long TEST_ID = 1L;
     public static final String TEST_USERNAME = "TestUsername";
     public static final String TEST_PASSWORD = "TestPassword";
     public static final String TEST_FILE_NAME = "TestFileName";
     public static final String TEST_TITLE = "TestTitle";
     public static final String TEST_RECIPE_COMMENT = "Test recipe comment!";
+    public static final String TEST_FILENAME = "testFilename.png";
+    public static final String TEST_RECIPE_BODY = "TestRecipeBody";
 
     public static User getUser() {
         User user = new User();
@@ -27,6 +30,7 @@ public class ServiceTestData {
         recipe.setId(TEST_ID);
         recipe.setFileName(TEST_FILE_NAME);
         recipe.setTitle(TEST_TITLE);
+        recipe.setRecipeBody(TEST_RECIPE_BODY);
         recipe.setUser(getUser());
         return recipe;
     }
@@ -45,5 +49,9 @@ public class ServiceTestData {
         comment.setRecipeComment(TEST_RECIPE_COMMENT);
         comment.setUser(getUser());
         return comment;
+    }
+
+    public static MockMultipartFile getMockMultipartFile (String content) {
+        return new MockMultipartFile("fileName", TEST_FILENAME, null, content.getBytes());
     }
 }

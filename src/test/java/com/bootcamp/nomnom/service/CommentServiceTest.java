@@ -1,5 +1,6 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.TestData;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.repository.CommentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -31,7 +31,7 @@ public class CommentServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        comment = ServiceTestData.getComment();
+        comment = TestData.getComment();
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CommentServiceTest {
     void deleteCommentTest() {
         when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(comment));
 
-        commentService.deleteComment(ServiceTestData.TEST_ID);
+        commentService.deleteComment(TestData.TEST_ID);
         verify(commentRepository, atLeastOnce()).findById(any(Long.class));
         verify(commentRepository, atLeastOnce()).delete(any(Comment.class));
     }
@@ -52,7 +52,7 @@ public class CommentServiceTest {
     @Test
     void deleteCommentTestFails() {
         assertThrows(EntityNotFoundException.class, () -> {
-            commentService.deleteComment(ServiceTestData.TEST_ID);
+            commentService.deleteComment(TestData.TEST_ID);
         });
     }
 }

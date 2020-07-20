@@ -1,46 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<meta name="author" content="Kodinger">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>My profile</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="../static/css/login.css">
+	<title>My Login Page &mdash; Bootstrap 4 Login Page Snippet</title>
+	<link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link th:href="@{/static/css/style.css}" rel="stylesheet" />
 </head>
 <!-- Navigation -->
-<div class="navbar-default">
-	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="#">User Profile</a>
-				</li>
-			</ul>
-		</div>
-		<div class="mx-auto order-0">
-			<div class="logo-container">
-				<a class="navbar-brand" href="#"><img class="img-responsive" src="../static/img/NOMNOM.png"></a>
-			</div>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-		</div>
-		<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="home.html">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link " href="login.html">Login</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link active" href="register.html">Register</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-</div>
+<div th:insert="fragments/nav-bar.html"></div>
+
+<!-- FORM -->
 <body class="my-login-page">
 	<section class="h-100">
 		<div class="container h-100">
@@ -54,30 +25,20 @@
 							<h4 class="card-title">Register</h4>
 							<form th:action="@{/register}" method="POST" class="my-login-validation" novalidate="">
 								<div class="form-group">
-									<label for="name">Name</label>
-									<input id="name" type="text" class="form-control" name="name" required autofocus>
+									<label for="name">Username</label>
+									<input th:field ="*{username}" id="name" type="text" class="form-control" name="name" required autofocus>
 									<div class="invalid-feedback">
-										What's your name?
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="email">E-Mail Address</label>
-									<input id="email" type="email" class="form-control" name="email" required>
-									<div class="invalid-feedback">
-										Your email is invalid
+										What's your username?
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label for="password">Password</label>
-									<input id="password" type="password" class="form-control" name="password" required data-eye>
+									<input th:field ="*{password}" id="password" type="password" class="form-control" name="password" required data-eye>
 									<div class="invalid-feedback">
 										Password is required
 									</div>
 								</div>
-
-								
 
 								<div class="form-group m-0">
 									<button type="submit" class="btn btn-primary btn-block">
@@ -85,7 +46,7 @@
 									</button>
 								</div>
 								<div class="mt-4 text-center">
-									Already have an account? <a href="login.html">Login</a>
+									Already have an account? <a th:href="@{~/resources/templates/login.html}">Login</a>
 								</div>
 							</form>
 						</div>
@@ -95,8 +56,8 @@
 		</div>
 	</section>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script src="../static/js/js.js"></script>
+	<script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="@{~/js/js.js}"></script>
 </body>
 </html>

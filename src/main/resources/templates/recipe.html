@@ -5,16 +5,39 @@
     <title>Need to think about title...</title>
 </head>
 <body>
-    <!-- recipe image -->
-    <img>
-    <!-- recipe title -->
-    <h2 th:text="${title}"></h2>
-    <!-- recipe description -->
-    <p th:text="${recipeBody}"></p>
-    <!-- show edit and delete buttons if logged in user is the creator of recipe -->
-    <div th:if="${user.id == recipe.user_id}">
-        <a href="@{recipe/delete/{recipeId}(recipeId = ${recipe.id}">Delete</a>
-        <a href="@{recipe/edit/{recipeId}(recipeId = ${recipe.id}">Edit</a>
+    <!-- return button -->
+    <a th:href="@{/recipe}">Go back</a>
+    <div>
+        <!-- recipe image -->
+        <img width="200" height="200" th:src="@{/images/recipe/{file}(file = ${recipe.fileName})}">
+        <!-- recipe title -->
+        <h2 th:text="${recipe.title}"></h2>
+        <!-- recipe description -->
+        <p th:text="${recipe.recipeBody}"></p>
+        <!-- show edit and delete buttons if logged in user is the creator of recipe -->
+        <div th:if="${user.id == recipe.user.id}">
+            <a th:href="@{/recipe/delete/{recipeId}(recipeId = ${recipe.id})}">Delete</a>
+            <a th:href="@{/recipe/update/{recipeId}(recipeId = ${recipe.id})}">Edit</a>
+        </div>
     </div>
+    <!-- Comment section -->
+    <div>
+        <div>
+            <form th:action="@{/recipe/{recipeId}/comment(recipeId = ${recipe.id})}" method="POST">
+                <!-- user profile pic -->
+                <img width="50" height="50">
+                <input type="text" name="recipeComment">
+                <input type="submit" value="Post">
+            </form>
+        </div>
+        <div th:unless="${recipeComments.empty}">
+            <div th:each="comment : ${recipeComments}" style="border: 1px solid black">
+                <!-- recipe title -->
+                <p th:text="${comment.recipeComment}"></p>
+                <a th:if="${comment.user.id == user.id}" th:href="@{/recipe/{recipeId}/comment/delete/{commentId}(recipeId = ${recipe.id}, commentId = ${comment.id})}">Delete comment</a>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -9,7 +9,12 @@ import com.bootcamp.nomnom.repository.LikeRepository;
 import com.bootcamp.nomnom.repository.RecipeRepository;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,9 +52,16 @@ public class RecipeService {
         return recipeRepository.findByUser_Id(id);
     }
 
+    public Page<Recipe> listAll(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 3);
+        return recipeRepository.findAll(pageable);
+    }
+
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2", "h3", "h4", "li", "ul", "ol"));
+        recipe.setRecipeBody(sanitizedRecipeHTML);
+        if (file == null || file.isEmpty()) {
             recipe.setFileName("default.png");
             recipe.setUser(user);
             recipeRepository.save(recipe);
@@ -57,7 +69,7 @@ public class RecipeService {
         } else {
             if (ImageIO.read(file.getInputStream()) != null) {
                 String fileName = StringGenerator.getRandomFilename(file);
-                Path absolutePath = Paths.get(".") ;
+                Path absolutePath = Paths.get(".");
                 Path filePath = Paths.get(absolutePath + "/src/main/resources/static/images/recipe/" + fileName);
                 try {
                     Files.write(filePath, file.getBytes());
@@ -69,9 +81,6 @@ public class RecipeService {
                     // need proper handling...
                     e.printStackTrace();
                 }
-
-            } else {
-                return null;
             }
         }
 
@@ -83,8 +92,8 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe updateRecipePicture(Recipe recipe, MultipartFile file) throws IOException {
-        if(file.isEmpty()) {
+    public Recipe updateRecipePicture(Recipe recipe, MultipartFile file) {
+        if (file.isEmpty()) {
             return recipe;
         } else {
             String toDelete = recipe.getFileName();
@@ -93,7 +102,7 @@ public class RecipeService {
             try {
                 Files.write(filePath, file.getBytes());
                 recipe.setFileName(fileName);
-                if(!("default.png".equals(toDelete))) {
+                if (!("default.png".equals(toDelete))) {
                     Path pathToDelete = Paths.get(absolutePath + "/" + toDelete);
                     Files.delete(pathToDelete);
                 }
@@ -106,7 +115,7 @@ public class RecipeService {
     }
 
     public Recipe deleteRecipePicture(Recipe recipe) throws IOException {
-        if(!("default.png").equals(recipe.getFileName())) {
+        if (!("default.png").equals(recipe.getFileName())) {
             Path deletePath = Paths.get(absolutePath + "/" + recipe.getFileName());
             Files.delete(deletePath);
             recipe.setFileName("default.png");

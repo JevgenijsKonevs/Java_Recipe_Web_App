@@ -1,6 +1,5 @@
 package com.bootcamp.nomnom.service;
 
-import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
@@ -37,7 +36,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean userExists(String username){
+    public boolean userExists(String username) {
         return userRepository.existsByUsername(username);
     }
 
