@@ -8,13 +8,14 @@ import org.springframework.mock.web.MockMultipartFile;
 
 public class TestData {
 
-    public static final long TEST_ID = 1234L;
+    public static final long TEST_ID = 1L;
     public static final String TEST_USERNAME = "TestUsername";
     public static final String TEST_PASSWORD = "TestPassword";
     public static final String TEST_FILE_NAME = "TestFileName";
     public static final String TEST_TITLE = "TestTitle";
     public static final String TEST_RECIPE_COMMENT = "Test recipe comment!";
     public static final String TEST_FILENAME = "testFilename.png";
+    public static final String TEST_RECIPE_BODY = "TestRecipeBody";
 
     public static User getUser() {
         User user = new User();
@@ -29,6 +30,7 @@ public class TestData {
         recipe.setId(TEST_ID);
         recipe.setFileName(TEST_FILE_NAME);
         recipe.setTitle(TEST_TITLE);
+        recipe.setRecipeBody(TEST_RECIPE_BODY);
         recipe.setUser(getUser());
         return recipe;
     }

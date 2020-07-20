@@ -20,6 +20,6 @@ public class HomeControllerTest {
 
     @Test
     public void homePageTest(){
-        assertEquals(homeController.homePage(), "home");
+        assertEquals("home", homeController.homePage());
     }
 }

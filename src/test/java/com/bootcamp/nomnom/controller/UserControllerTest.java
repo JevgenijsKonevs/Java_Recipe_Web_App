@@ -47,22 +47,22 @@ public class UserControllerTest {
 
     @Test
     public void showProfilePageTest(){
-        assertEquals(userController.showProfilePage(model), "profile");
+        assertEquals("profile",userController.showProfilePage(model));
     }
 
     @Test
     public void findUserProfileSameUserTest(){
-        assertEquals(userController.findUserProfile(user.getUsername(), user), "profile");
+        assertEquals("profile",userController.findUserProfile(user.getUsername(), user));
     }
 
     @Test
     public void findUserProfileDifferentUserTest(){
-        assertEquals(userController.findUserProfile("differentName", user), "user-page");
+        assertEquals("user-page",userController.findUserProfile("differentName", user));
     }
 
     @Test
     public void postImageTest() throws IOException {
-        assertEquals(userController.postImage(multipartFile,user), "redirect:/user/profile");
+        assertEquals("redirect:/user/profile", userController.postImage(multipartFile,user));
         verify(userService, atLeastOnce()).saveProfilePhoto(any(User.class), any(MultipartFile.class)) ;
     }
 

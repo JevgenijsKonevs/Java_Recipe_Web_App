@@ -19,12 +19,12 @@ public class CustomErrorControllerTest {
 
     @Test
     public void loginPageTest(){
-        assertEquals(customErrorController.handleError(), "sad-cupcake-error");
+        assertEquals("sad-cupcake-error", customErrorController.handleError());
     }
 
     @Test
     public void errorPathTest(){
-        assertEquals(customErrorController.getErrorPath(), "/error");
+        assertEquals("/error", customErrorController.getErrorPath());
 
     }
 
