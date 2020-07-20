@@ -5,7 +5,7 @@
     <title>Need to think of better title</title>
 </head>
 <body>
-    <form th:object="${recipe}" th:action="@{{recipeId}(recipeId = ${recipe.id})}" method="POST">
+    <form th:object="${recipe}" th:action="@{{recipeId}(recipeId = ${recipe.id})}" method="POST" enctype="multipart/form-data">
         <table>
             <tr>
                 <td>Title:</td>
@@ -18,11 +18,14 @@
             </tr>
             <tr>
                 <td><input hidden th:name="user" th:field="*{user.id}" /></td>
+                <td><input hidden th:name="filename" th:field="*{fileName}" /></td>
+
             </tr>
             <tr>
                 <td><input type="file" name="file" accept="image/*"></td>
-                <td colspan="2">
-                    <input type="submit" value="Update recipe" />
+                <td><button type="submit" name="button" value="delete">Delete current picture</button></td>
+                <td colspan="3">
+                    <button type="submit" name="button" value="update">Update recipe</button>
                 </td>
             </tr>
         </table>

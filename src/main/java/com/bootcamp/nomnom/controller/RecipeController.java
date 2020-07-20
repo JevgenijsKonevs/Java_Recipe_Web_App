@@ -89,12 +89,25 @@ public class RecipeController {
     }
 
     @PostMapping("/update/{recipeId}")
-    public String updateRecipe(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user) {
+    public String updateRecipe(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file, @RequestParam("button") String command) throws IOException {
         recipe.setId(recipeId);
         recipeValidation(recipeId, user.getId());
-        recipeService.updateRecipe(recipe);
+        if(command.equals("update")) {
+            recipeService.updateRecipe(recipeService.updateRecipePicture(recipe, file));
+        } else {
+            recipeService.updateRecipe(recipeService.deleteRecipePicture(recipe));
+        }
+
         return "redirect:/recipe/" + recipeId;
     }
+
+//    @GetMapping("/update/{recipeId}/image/delete")
+//    public String deleteRecipeImage(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user) throws IOException {
+//        recipe.setId(recipeId);
+//        recipeValidation(recipeId, user.getId());
+//        recipeService.updateRecipe(recipeService.deleteRecipePicture(recipe));
+//        return "redirect:/recipe/" + recipeId;
+//    }
 
     @GetMapping("/delete/{recipeId}")
     public String deleteRecipe(@PathVariable("recipeId") Long recipeId, @AuthenticationPrincipal User user) {

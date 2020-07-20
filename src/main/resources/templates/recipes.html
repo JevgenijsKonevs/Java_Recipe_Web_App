@@ -9,7 +9,7 @@
     <div th:unless="${recipes.empty}">
         <div th:each="recipe : ${recipes}">
             <!-- recipe image -->
-            <img width="100" height="100" th:src="@{/images/recipe/{file}(file = ${recipe.fileName})}">
+            <img width="100" height="100" th:src="@{/img/recipe/{file}(file = ${recipe.fileName})}">
             <!-- recipe title -->
             <h3><a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a></h3>
         </div>
