@@ -101,14 +101,6 @@ public class RecipeController {
         return "redirect:/recipe/" + recipeId;
     }
 
-//    @GetMapping("/update/{recipeId}/image/delete")
-//    public String deleteRecipeImage(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user) throws IOException {
-//        recipe.setId(recipeId);
-//        recipeValidation(recipeId, user.getId());
-//        recipeService.updateRecipe(recipeService.deleteRecipePicture(recipe));
-//        return "redirect:/recipe/" + recipeId;
-//    }
-
     @GetMapping("/delete/{recipeId}")
     public String deleteRecipe(@PathVariable("recipeId") Long recipeId, @AuthenticationPrincipal User user) {
         recipeValidation(recipeId, user.getId());
