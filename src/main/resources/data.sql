@@ -1,8 +1,8 @@
 insert into users (id, password, username) values ('1', '$2y$11$Yy2cchSoRsjGLjwPyCnSUuyAFXFHyvHKTr24j1aSBd8C5y2vcr/au', 'TestUsername')
-insert into users (id, password, username) values ('2', '$2y$11$02/9T5cESVkl3v1NBLUSkeBosm.9REJqCNV.wt.IazAqX3BAgC1c6', 'potato')
-insert into users (id, password, username) values ('3', '$2y$11$cdPavU13elWqObA5MCYuD.sG/wLj2GfhZEuRuZ25Cj6Els28s.KMu', 'panda')
-insert into users (id, password, username) values ('4', '$2y$11$7gP2ucv4Er2d3KwhTsIe0udOs6Wz1Rk9in4PmLywq/mtjZOo5lSua', 'cupcake')
-insert into users (id, password, username) values ('5', '$2y$11$VLors3k49YhEtZqjDRFWuu2IwhM4lug0Tcy3.l..5420irqbzb.Ne', 'doggie')
+insert into users (id, file_name, password, username) values ('2', 'default.png', '$2y$11$02/9T5cESVkl3v1NBLUSkeBosm.9REJqCNV.wt.IazAqX3BAgC1c6', 'potato')
+insert into users (id, file_name, password, username) values ('3', 'default.png', '$2y$11$cdPavU13elWqObA5MCYuD.sG/wLj2GfhZEuRuZ25Cj6Els28s.KMu', 'panda')
+insert into users (id, file_name, password, username) values ('4', 'default.png', '$2y$11$7gP2ucv4Er2d3KwhTsIe0udOs6Wz1Rk9in4PmLywq/mtjZOo5lSua', 'cupcake')
+insert into users (id, file_name, password, username) values ('5', 'default.png', '$2y$11$VLors3k49YhEtZqjDRFWuu2IwhM4lug0Tcy3.l..5420irqbzb.Ne', 'doggie')
 
 insert into user_roles (user_id, role) values ('1', 'USER')
 insert into user_roles (user_id, role) values ('1', 'ADMIN')

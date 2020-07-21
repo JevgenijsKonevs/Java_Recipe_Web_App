@@ -37,6 +37,7 @@ public class UserService implements UserDetailsService {
 
     public User saveUserRegister(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setFileName("default.png");
         userRepository.save(user);
         return user;
     }
