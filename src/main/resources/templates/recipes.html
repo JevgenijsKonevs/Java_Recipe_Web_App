@@ -13,7 +13,7 @@
             <!-- recipe title -->
             <h3><a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a></h3>
         </div>
-    </div>
+    </div>2
 
     <div>
         <a th:if="${currentPage > 1}" th:href="@{/recipe/page/{pageNumber}(pageNumber = ${currentPage-1})}">Previous</a>

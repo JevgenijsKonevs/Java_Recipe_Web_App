@@ -1,6 +1,7 @@
 package com.bootcamp.nomnom.controller;
 
 import com.bootcamp.nomnom.entity.User;
+import com.bootcamp.nomnom.service.RecipeService;
 import com.bootcamp.nomnom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,8 +23,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RecipeService recipeService;
+
     @GetMapping("/profile")
-    public String showProfilePage(Model model) {
+    public String showProfilePage(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("recipes", recipeService.getAllRecipeByUser(user.getId()));
+        model.addAttribute("user", user);
         return "profile";
     }
 

@@ -46,6 +46,11 @@ img {
 	height:auto;
 }
 
+.profile-img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
 /* main page */
 .card-horizontal {
     display: block;
@@ -146,6 +151,16 @@ body.my-login-page {
 	margin: 40px 0;
 	color: #888;
 	text-align: center;
+}
+
+h4 > a {
+    text-decoration: none;
+    color: black;
+}
+
+h4 > a:hover {
+    text-decoration: none;
+    color: gray;
 }
 
 /* user page */

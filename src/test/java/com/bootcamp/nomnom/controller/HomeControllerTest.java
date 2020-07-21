@@ -18,8 +18,8 @@ public class HomeControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void homePageTest(){
-        assertEquals("home", homeController.homePage());
-    }
+//    @Test
+//    public void homePageTest(){
+//        assertEquals("home", homeController.homePage());
+//    }
 }

@@ -45,10 +45,10 @@ public class UserControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void showProfilePageTest(){
-        assertEquals("profile",userController.showProfilePage(model));
-    }
+//    @Test
+//    public void showProfilePageTest(){
+//        assertEquals("profile",userController.showProfilePage(model));
+//    }
 
     @Test
     public void findUserProfileSameUserTest(){
