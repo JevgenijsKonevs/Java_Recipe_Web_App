@@ -37,6 +37,7 @@ public class UserService implements UserDetailsService {
 
     public User saveUserRegister(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setFileName("default.png");
         userRepository.save(user);
         return user;
     }
@@ -81,6 +82,12 @@ public class UserService implements UserDetailsService {
             user.setFileName("default.png");
         }
 
+        return user;
+    }
+
+    public User updateUserPassword(User user, String password){
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
         return user;
     }
 }

@@ -49,14 +49,29 @@ public class RecipeController {
     }
 
     @GetMapping("/page/{pageNumber}")
-    public String getRecipesOnPage(Model model, @PathVariable("pageNumber") int pageNumber) {
+    public String getRecipesOnPage(Model model, @PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user) {
         Page<Recipe> page = recipeService.listAll(pageNumber);
         List<Recipe> recipeList = page.getContent();
         int totalPages = page.getTotalPages();
+        model.addAttribute("user", user);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("recipes", recipeList);
         return "recipes";
+    }
+
+    @GetMapping("/search/{keyword}/page/{pageNumber}")
+    public String searchRecipes(Model model, @PathVariable("keyword") String keyword,@PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user){
+        Page<Recipe> page = recipeService.searchRecipe(keyword, pageNumber);
+        List<Recipe> recipeList = page.getContent();
+        int totalPages = page.getTotalPages();
+        model.addAttribute("user", user);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("recipes", recipeList);
+        model.addAttribute("keyword", keyword);
+
+        return "search-results";
     }
 
     @GetMapping("/{recipeId}")
@@ -69,12 +84,15 @@ public class RecipeController {
         model.addAttribute("recipe", recipe);
         model.addAttribute("recipeComments", recipeComments);
         model.addAttribute("recipeLikes", recipeLikes);
+        model.addAttribute("likes", likeService.getRecipeLikes(recipeId));
+        model.addAttribute("dislikes", likeService.getRecipeDislikes(recipeId));
         model.addAttribute("user", user);
         return "recipe";
     }
 
     @GetMapping("/new")
-    public String createRecipe() {
+    public String createRecipe(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "new-recipe";
     }
 
@@ -114,6 +132,9 @@ public class RecipeController {
 
     @PostMapping("/{recipeId}/comment")
     public String addComment(@PathVariable("recipeId") Long recipeId, @ModelAttribute Comment comment, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "redirect:/login";
+        }
         comment.setRecipe(recipeService.getRecipeById(recipeId));
         comment.setUser(user);
         commentService.saveComment(comment);
@@ -130,13 +151,26 @@ public class RecipeController {
         return "redirect:/recipe/" + recipeId;
     }
 
-    @PostMapping("/{recipeId}/like/{likeValue}")
-    public String submitLike(@PathVariable("recipeId") Long recipeId, @PathVariable("likeValue") boolean recipeLike, @AuthenticationPrincipal User user) {
-        Recipe recipe = recipeService.getRecipeById(recipeId);
-        Like like = new Like();
-        like.setRecipe(recipe);
-        like.setUser(user);
-        likeService.saveLike(like);
+    @PostMapping("/{recipeId}/like/")
+    public String submitLike(@PathVariable("recipeId") Long recipeId, @RequestParam("button") String recipeLike, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        if (!(recipeService.hasRated(user.getId(), recipeId))) {
+            Recipe recipe = recipeService.getRecipeById(recipeId);
+            Like like = new Like();
+            like.setRecipe(recipe);
+            like.setUser(user);
+            if(("like").equals(recipeLike)) {
+                like.setRecipeLike(true);
+            } else {
+                like.setRecipeLike(false);
+            }
+            likeService.saveLike(like);
+        }
+
+
         return "redirect:/recipe/" + recipeId;
     }
 

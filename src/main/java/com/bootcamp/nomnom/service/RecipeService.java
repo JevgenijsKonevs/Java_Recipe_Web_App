@@ -146,12 +146,27 @@ public class RecipeService {
         recipeRepository.delete(recipe);
     }
 
+    public boolean hasRated(Long userId, Long recipeId) {
+        Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
+        for (Like like : likeSet) {
+            if(like.getUser().getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Set<Comment> getAllComments(Long id) {
         return commentRepository.findByRecipe_Id(id);
     }
 
     public Set<Like> getAllLikes(Long id) {
         return likeRepository.findByRecipe_Id(id);
+    }
+
+    public Page<Recipe> searchRecipe(String keyword, int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        return recipeRepository.findByTitleContaining(keyword, pageable);
     }
 
 }
