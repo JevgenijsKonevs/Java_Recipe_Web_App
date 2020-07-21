@@ -373,6 +373,18 @@ td > a:hover {
 	margin-right: auto;
 }
 
+.like {
+	width: 8%;
+	border: none;
+	background: none;
+}
+
+.dislike {
+	width: 8%;
+	border: none;
+	background: none;
+}
+
 /*--- Bootstrap Padding Fix --*/
 [class*="col-"] {
     padding: 1rem;
