@@ -18,13 +18,13 @@
   </script>
 </head>
 
-<div th:insert="fragments/navbar.html"></div>
+<div th:insert="fragments/nav-bar.html"></div>
 
 <body>
     <div id="recipeCreationForm">
         <form th:action="@{/recipe}" method="POST" enctype="multipart/form-data">
             <div class="add-recipe">
-                <input class="form-control form-control-lg addrecipe-title" type="text" placeholder="Recipe title">
+                <input class="form-control form-control-lg addrecipe-title" type="text" name="title" placeholder="Recipe title">
 
                 <div class="addrecipe-img">
                     <div class="form-group">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="addrecipe-text">
-                    <textarea id="recipe" name="recipe" class="form-control" rows="3">Write your recipe here!</textarea>
+                    <textarea id="recipe" name="recipeBody" class="form-control" rows="3">Write your recipe here!</textarea>
                 </div>
 
                 <button type="submit" class="addrecipe-submit">Submit</button>
