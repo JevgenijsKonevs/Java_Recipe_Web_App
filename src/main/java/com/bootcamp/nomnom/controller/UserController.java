@@ -30,12 +30,15 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public String findUserProfile(@PathVariable("username") String username, @AuthenticationPrincipal User user) {
+    public String findUserProfile(Model model, @PathVariable("username") String username, @AuthenticationPrincipal User user) {
         if (user != null && username.equals(user.getUsername())) {
-            return "profile";
+            return "redirect:/user/profile";
         }
+        model.addAttribute("user", userService.loadUserByUsername(username));
+        model.addAttribute("recipes", recipeService.getAllRecipeByUser((long)1));
         return "user-page";
     }
+
 
     @PostMapping("/update/image")
     public String postImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user, @RequestParam("button") String command) throws IOException {
