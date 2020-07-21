@@ -67,7 +67,6 @@ public class RecipeController {
         Set<Like> recipeLikes = recipeService.getAllLikes(recipeId);
 
         model.addAttribute("recipe", recipe);
-        logger.warn("is user null?  " + (recipe.getUser() == null));
         model.addAttribute("recipeComments", recipeComments);
         model.addAttribute("recipeLikes", recipeLikes);
         model.addAttribute("user", user);
