@@ -1,5 +1,6 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.controller.RecipeController;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
@@ -11,6 +12,8 @@ import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +32,9 @@ import java.util.Set;
 @Service
 public class RecipeService {
 
-    private Path absolutePath = Paths.get("./src/main/resources/static/images/recipe");
+    private static Path fileUploadDirectory = Paths.get("./src/main/uploads/images/recipe");
+
+    Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -53,13 +58,14 @@ public class RecipeService {
     }
 
     public Page<Recipe> listAll(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 3);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
         return recipeRepository.findAll(pageable);
     }
 
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2", "h3", "h4", "li", "ul", "ol"));
+
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol", "p"));
         recipe.setRecipeBody(sanitizedRecipeHTML);
         if (file == null || file.isEmpty()) {
             recipe.setFileName("default.png");
@@ -69,8 +75,7 @@ public class RecipeService {
         } else {
             if (ImageIO.read(file.getInputStream()) != null) {
                 String fileName = StringGenerator.getRandomFilename(file);
-                Path absolutePath = Paths.get(".");
-                Path filePath = Paths.get(absolutePath + "/src/main/resources/static/images/recipe/" + fileName);
+                Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
                 try {
                     Files.write(filePath, file.getBytes());
                     recipe.setFileName(fileName);
@@ -87,7 +92,11 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe updateRecipe(Recipe recipe) {
+    public Recipe updateRecipeWithoutImages(Recipe recipe, User user) {
+        recipe.setUser(user);
+        recipe.setFileName(recipeRepository.findById(recipe.getId()).orElseThrow(EntityNotFoundException::new).getFileName());
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol", "p"));
+        recipe.setRecipeBody(sanitizedRecipeHTML);
         recipeRepository.save(recipe);
         return recipe;
     }
@@ -98,12 +107,12 @@ public class RecipeService {
         } else {
             String toDelete = recipe.getFileName();
             String fileName = StringGenerator.getRandomFilename(file);
-            Path filePath = Paths.get(absolutePath + "/" + fileName);
+            Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
             try {
                 Files.write(filePath, file.getBytes());
                 recipe.setFileName(fileName);
                 if (!("default.png".equals(toDelete))) {
-                    Path pathToDelete = Paths.get(absolutePath + "/" + toDelete);
+                    Path pathToDelete = Paths.get(fileUploadDirectory + "/" + toDelete);
                     Files.delete(pathToDelete);
                 }
             } catch (Exception e) {
@@ -116,7 +125,7 @@ public class RecipeService {
 
     public Recipe deleteRecipePicture(Recipe recipe) throws IOException {
         if (!("default.png").equals(recipe.getFileName())) {
-            Path deletePath = Paths.get(absolutePath + "/" + recipe.getFileName());
+            Path deletePath = Paths.get(fileUploadDirectory + "/" + recipe.getFileName());
             Files.delete(deletePath);
             recipe.setFileName("default.png");
         }

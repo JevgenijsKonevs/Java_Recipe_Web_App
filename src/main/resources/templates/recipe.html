@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <title>Need to think about title...</title>
 </head>
+
+<div th:insert="fragments/nav-bar.html"></div>
 <body>
     <!-- return button -->
     <a th:href="@{/recipe}">Go back</a>
     <div>
         <!-- recipe image -->
-        <img width="200" height="200" th:src="@{/images/recipe/{file}(file = ${recipe.fileName})}">
+        <img width="200" height="200" th:src="@{/img/recipe/{file}(file = ${recipe.fileName})}">
         <!-- recipe title -->
         <h2 th:text="${recipe.title}"></h2>
         <!-- recipe description -->
@@ -32,8 +34,13 @@
         </div>
         <div th:unless="${recipeComments.empty}">
             <div th:each="comment : ${recipeComments}" style="border: 1px solid black">
-                <!-- recipe title -->
+                <!-- user image -->
+                <img th:src="@{/img/user/{file}(file = ${user.fileName})}">
+                <!-- comment author username -->
+                <p th:text="${comment.user.username}"></p>
+                <!-- user comment -->
                 <p th:text="${comment.recipeComment}"></p>
+                <!-- show "delete button" comment -->
                 <a th:if="${comment.user.id == user.id}" th:href="@{/recipe/{recipeId}/comment/delete/{commentId}(recipeId = ${recipe.id}, commentId = ${comment.id})}">Delete comment</a>
             </div>
         </div>

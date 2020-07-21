@@ -4,6 +4,7 @@ import com.bootcamp.nomnom.TestData;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
+import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.CommentRepository;
 import com.bootcamp.nomnom.repository.LikeRepository;
 import com.bootcamp.nomnom.repository.RecipeRepository;
@@ -54,6 +55,7 @@ public class RecipeServiceTest {
     private Like like;
     private Comment comment;
     private MultipartFile multipartFile;
+    private User user;
 
     @BeforeEach
     void setUp() {
@@ -61,6 +63,7 @@ public class RecipeServiceTest {
         recipe = TestData.getRecipe();
         like = TestData.getLike();
         comment = TestData.getComment();
+        user = TestData.getUser();
     }
 
     @Test
@@ -100,7 +103,7 @@ public class RecipeServiceTest {
     @Test
     void updateRecipeTest() {
         when(recipeRepository.save(any(Recipe.class))).thenReturn(recipe);
-        assertEquals(recipe, recipeService.updateRecipe(recipe));
+        assertEquals(recipe, recipeService.updateRecipeWithoutImages(recipe, user));
     }
 
     @Test

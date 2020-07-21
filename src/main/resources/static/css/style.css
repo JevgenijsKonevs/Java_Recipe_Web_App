@@ -49,24 +49,40 @@ img {
 /* main page */
 .card-horizontal {
     display: block;
-    flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .container {
+	width: 60%;
     margin: 0 auto;
     float: none;
-    margin-bottom: 10px;
+	margin-bottom: 10px;
+	padding-top: 2rem;
 }
 
 .card-header {
     background-color : white;
     color: #4e4a4a;
     font-family: 'Josefin Sans';
-    padding-top: 1.5rem;
+	padding-top: 1.5rem;
 }
 
 .card-header h4 {
     font-size: 1.7rem;
+}
+
+#recipe-prev {
+	padding-bottom: 2rem;
+}
+
+h4 > a {
+    text-decoration: none;
+    color: black;
+}
+
+h4 > a:hover {
+    text-decoration: none;
+    color: gray;
 }
 
 /* login and register */
@@ -86,7 +102,7 @@ img {
 }
 
 body.my-login-page {
-    background-image: url(/img/pattern_2.jpg) !important;
+    background-image: url(../image/pattern.jpg) !important;
     background-size: 15% !important;
 }
 
@@ -112,6 +128,7 @@ body.my-login-page {
 
 .my-login-page .card-wrapper {
 	width: 400px;
+	margin-top: 6rem;
 }
 
 .my-login-page .card {
@@ -191,15 +208,236 @@ body.my-login-page {
     transition: all 0.5s ease-in;
 }
 
+.profile-img {
+    max-width: 150px;
+    max-height: 150px;
+    margin-bottom: 1rem;
+}
+
+td > a {
+    text-decoration: none;
+    color: black;
+}
+
+td > a:hover {
+    text-decoration: none;
+    color: gray;
+}
+
+/* multiple recipe */
+.search-result h3 {
+    margin: 0 0 15px;
+	color: #4e4a4a;
+	text-decoration: none;
+	font-family: 'Josefin Sans';
+}
+
+.search-result a {
+	text-decoration: none;
+}
+
+.well {
+	margin-bottom: 2rem;
+	width: 100%;
+    border: 1px solid #ffb6b9;
+    padding: 20px;
+    min-height: 63px;
+    background: #e9bebe;
+    box-shadow: none;
+    border-radius: 3px;
+    position: relative;
+    max-height: 100000px;
+    transition: max-height 0.5s ease;
+    -o-transition: max-height 0.5s ease;
+    -ms-transition: max-height 0.5s ease;
+    -moz-transition: max-height 0.5s ease;
+    -webkit-transition: max-height 0.5s ease;
+}
+
+.form-control {
+    height: 45px;
+    padding: 10px;
+    font-size: 16px;
+    box-shadow: none;
+    border-radius: 0;
+    position: relative;
+}
+
+.breadcrumb {
+	background-color : #e9bebe;
+}
+
+.recipe-pag {
+	width:100px;
+	margin: 0 auto;
+}
+
+.page-link {
+	color: #4e4a4a;
+}
+
+.page-link:hover {
+	background-color: #ffb6b9;
+	transition: 0.3s ease;
+	color: #4e4a4a;
+}
+
+.recipe-text {
+	margin-top: 1rem;
+	background-color: white;
+	padding: 1rem;
+	border-radius: 3px;
+	font-size: 1rem;
+	text-align: justify;
+}
+
+#comment-pic {
+	max-width: 100px;
+	max-height: 100px;
+}
+
+.recipe-full a {
+	color: #f16262;
+	text-decoration: none;
+}
+
+#rating {
+	margin-bottom: 1rem;
+}
+
+/* error page */
+.sad-cupcake {
+	width: 30%;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.error-page {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 3rem;
+}
+
+.error-text {
+	text-align: center;
+	background-color: white;
+	padding: 1.2rem;
+	margin-top: 1rem;
+	border-radius: 3px;
+	font-family: 'Josefin Sans';
+	color: #4e4a4a;
+	font-size: 2vw;
+}
+
+/* add recipe */
+.add-recipe {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 2rem;
+}
+
+.addrecipe-img {
+	width: 25%;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+}
+
+.addrecipe-submit {
+	width: 20%;
+	display:block;
+	margin-left: auto;
+	margin-top: 2rem;
+	margin-right: auto;
+	padding: 1rem 0.5rem;
+	border: none;
+	background-color: white;
+	border-radius: 3px;
+}
+
+.addrecipe-text .form-control {
+	min-height: 400px;
+}
+
+.addrecipe-submit:hover {
+	background-color: #ffb6b9;
+	transition: 0.5s ease;
+}
+
+.addrecipe-title {
+	width: 80%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.like {
+	width: 8%;
+	border: none;
+	background: none;
+}
+
+.dislike {
+	width: 8%;
+	border: none;
+	background: none;
+}
+
 /*--- Bootstrap Padding Fix --*/
 [class*="col-"] {
     padding: 1rem;
 }
 
+@media screen and (max-width: 768px) {
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 4vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 30%;
+	}
+
+	.addrecipe-submit {
+		width: 20%;
+	}
+}
+
+
+
 @media screen and (max-width: 425px) {
 	.my-login-page .card-wrapper {
 		width: 90%;
 		margin: 0 auto;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 6vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 60%;
+	}
+
+	.addrecipe-submit {
+		width: 40%;
 	}
 }
 
@@ -210,5 +448,25 @@ body.my-login-page {
 
 	.my-login-page .card.fat .card-body {
 		padding: 15px;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 8vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 70%;
+	}
+
+	.addrecipe-submit {
+		width: 50%;
 	}
 }

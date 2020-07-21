@@ -24,13 +24,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/h2/**", "/console**", "/login", "/register").permitAll()
+                //TODO: /** is only for easier testing, let's delete when register and auth works
+                .antMatchers( "/image/**", "/h2/**", "/console**", "/login", "/register", "/img/**", "/css/**", "/js/**", "/recipe/page/**", "/recipe/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").defaultSuccessUrl("/")
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
+                .logoutUrl("/user/logout")
                 .and()
                 .headers().frameOptions().disable()
                 .and()
