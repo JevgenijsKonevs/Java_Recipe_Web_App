@@ -49,24 +49,30 @@ img {
 /* main page */
 .card-horizontal {
     display: block;
-    flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .container {
+	width: 60%;
     margin: 0 auto;
     float: none;
-    margin-bottom: 10px;
+	margin-bottom: 10px;
+	padding-top: 2rem;
 }
 
 .card-header {
     background-color : white;
     color: #4e4a4a;
     font-family: 'Josefin Sans';
-    padding-top: 1.5rem;
+	padding-top: 1.5rem;
 }
 
 .card-header h4 {
     font-size: 1.7rem;
+}
+
+#recipe-prev {
+	padding-bottom: 2rem;
 }
 
 /* login and register */
