@@ -59,7 +59,7 @@ public class RecipeService {
 
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h2", "h3", "h4", "li", "ul", "ol"));
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol"));
         recipe.setRecipeBody(sanitizedRecipeHTML);
         if (file == null || file.isEmpty()) {
             recipe.setFileName("default.png");
