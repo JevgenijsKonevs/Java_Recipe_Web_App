@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,12 +37,21 @@ public class UserController {
         return "user-page";
     }
 
-    @PostMapping()
-    public String postImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user) throws IOException {
+    @PostMapping("/update/image")
+    public String postImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user, @RequestParam("button") String command) throws IOException {
+        if(command.equals("update")) {
+            userService.saveProfilePhoto(user, file);
+        } else {
+            userService.deleteUserPicture(user);
+        }
 
-        userService.saveProfilePhoto(user, file);
         return "redirect:/user/profile";
     }
 
+    @PostMapping("/update/password")
+    public String changeUserPassword(@AuthenticationPrincipal User user) {
+        userService.saveUserRegister(user);
+        return "redirect:/user/profile";
+    }
 
 }
