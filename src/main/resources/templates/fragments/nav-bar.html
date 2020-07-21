@@ -10,28 +10,35 @@
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">User Profile</a>
+                        <a class="nav-link" th:if="${user ne null}" th:href="@{/user/profile}">User Profile</a>
                     </li>
                 </ul>
             </div>
             <div class="mx-auto order-0">
                 <div class="logo-container">
-                    <a class="navbar-brand" href="#"><img class="img-responsive" src="../img/NOMNOM.png"></a>
+                    <a class="navbar-brand" href="#"><img class="img-responsive" th:src="@{/image/nomnom.png}"/>
+                    </a>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <div class="navbar-collapse collapse w-100 dual-collapse2" th:classappend="${user ne null} ? order-1 : order-3">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link active" th:href="@{/}" href="index.html">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="login.html">Login</a>
+                    <li class="nav-item" th:unless="${user ne null}" >
+                        <a class="nav-link" th:href="@{/login}" href="login.html">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="register.html">Register</a>
+                    <li class="nav-item" th:unless="${user ne null}">
+                        <a class="nav-link" th:href="@{/register}">Register</a>
+                    </li>
+                    <li class="nav-item" th:if="${user ne null}">
+                        <a class="nav-link" th:href="@{/recipe/page/1}">All Recipes</a>
+                    </li>
+                    <li class="nav-item" th:if="${user ne null}">
+                        <a class="nav-link" th:href="@{/recipe/new}">Create a recipe</a>
                     </li>
                 </ul>
             </div>

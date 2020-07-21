@@ -46,6 +46,11 @@ img {
 	height:auto;
 }
 
+.profile-img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
 /* main page */
 .card-horizontal {
     display: block;
@@ -92,7 +97,7 @@ img {
 }
 
 body.my-login-page {
-    background-image: url(/img/pattern_2.jpg) !important;
+    background-image: url(../image/pattern.jpg) !important;
     background-size: 15% !important;
 }
 
@@ -118,6 +123,7 @@ body.my-login-page {
 
 .my-login-page .card-wrapper {
 	width: 400px;
+	margin-top: 6rem;
 }
 
 .my-login-page .card {
@@ -152,6 +158,16 @@ body.my-login-page {
 	margin: 40px 0;
 	color: #888;
 	text-align: center;
+}
+
+h4 > a {
+    text-decoration: none;
+    color: black;
+}
+
+h4 > a:hover {
+    text-decoration: none;
+    color: gray;
 }
 
 /* user page */
@@ -197,28 +213,6 @@ body.my-login-page {
     transition: all 0.5s ease-in;
 }
 
-/*--- Bootstrap Padding Fix --*/
-[class*="col-"] {
-    padding: 1rem;
-}
-
-@media screen and (max-width: 425px) {
-	.my-login-page .card-wrapper {
-		width: 90%;
-		margin: 0 auto;
-	}
-}
-
-@media screen and (max-width: 320px) {
-	.my-login-page .card.fat {
-		padding: 0;
-	}
-
-	.my-login-page .card.fat .card-body {
-		padding: 15px;
-	}
-}
-
 /* multiple recipe */
 .search-result h3 {
     margin: 0 0 15px;
@@ -257,7 +251,7 @@ body.my-login-page {
     border-radius: 0;
     position: relative;
 }
-               
+
 .breadcrumb {
 	background-color : #e9bebe;
 }
@@ -289,4 +283,167 @@ body.my-login-page {
 #comment-pic {
 	max-width: 100px;
 	max-height: 100px;
+}
+
+.recipe-full a {
+	color: #f16262;
+	text-decoration: none;
+}
+
+#rating {
+	margin-bottom: 1rem;
+}
+
+/* error page */
+.sad-cupcake {
+	width: 30%;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.error-page {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 3rem;
+}
+
+.error-text {
+	text-align: center;
+	background-color: white;
+	padding: 1.2rem;
+	margin-top: 1rem;
+	border-radius: 3px;
+	font-family: 'Josefin Sans';
+	color: #4e4a4a;
+	font-size: 2vw;
+}
+
+/* add recipe */
+.add-recipe {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 2rem;
+}
+
+.addrecipe-img {
+	width: 25%;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+}
+
+.addrecipe-submit {
+	width: 20%;
+	display:block;
+	margin-left: auto;
+	margin-top: 2rem;
+	margin-right: auto;
+	padding: 1rem 0.5rem;
+	border: none;
+	background-color: white;
+	border-radius: 3px;
+}
+
+.addrecipe-text .form-control {
+	min-height: 400px;
+}
+
+.addrecipe-submit:hover {
+	background-color: #ffb6b9;
+	transition: 0.5s ease;
+}
+
+.addrecipe-title {
+	width: 80%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*--- Bootstrap Padding Fix --*/
+[class*="col-"] {
+    padding: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 4vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 30%;
+	}
+
+	.addrecipe-submit {
+		width: 20%;
+	}
+}
+
+
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 6vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 60%;
+	}
+
+	.addrecipe-submit {
+		width: 40%;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+
+	.container {
+		width: 100%;
+	}
+
+	.error-text {
+		font-size: 8vw;
+	}
+
+	.add-recipe {
+		width: 100%;
+	}
+
+	.addrecipe-img {
+		width: 70%;
+	}
+
+	.addrecipe-submit {
+		width: 50%;
+	}
 }

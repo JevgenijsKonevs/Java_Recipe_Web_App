@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 </head>
 <body>
-    <p>Sad cupcake image goes here!</p>
-    <h1>Something went wrong :(</h1>
+    <div class="error-page">
+        <img src="../static/image/sadcupcake.png" class="sad-cupcake" alt="big sad">
+        <div class="error-text">
+            <p>Ooops... seems like something went wrong!<br>Better go back :)</p>
+        </div>
+    </div>
 </body>
 </html>
