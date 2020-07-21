@@ -402,6 +402,43 @@ td > a:hover {
 	background: none;
 }
 
+.changeimg-btn {
+    background-color: #ffb6b9;
+    border: 1px solid #f16262;
+    padding: 0.5rem 1rem;
+    color: white;
+}
+
+.changeimg-btn:hover {
+	background-color: #ffb6b9;
+    border: 1px solid #f16262;
+    padding: 0.5rem 1rem;
+    color: white;
+}
+
+#uwu .btn-primary:active {
+	background-color: #ffb6b9;
+    border: 1px solid #f16262;
+    padding: 0.5rem 1rem;
+    color: white;
+}
+
+#uwu .btn-primary:focus {
+	background-color: #ffb6b9;
+    border: 1px solid #f16262;
+    padding: 0.5rem 1rem;
+    color: white;
+}
+
+.sidebar-prof {
+    background-color: white;
+    border-radius: 3px;
+}
+
+#uwu {
+    padding: 2.5rem;
+}
+
 /*--- Bootstrap Padding Fix --*/
 [class*="col-"] {
     padding: 1rem;

@@ -14,6 +14,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
 </head>
 
 <body>
@@ -53,12 +54,6 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="password" name="password" value="" placeholder="Type your password once again">
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label"></label>
                                 <div class="col-lg-9">
                                     <input type="submit" class="btn btn-primary" value="Save Changes">
@@ -69,21 +64,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 order-lg-1 text-center">
+            <div class="col-lg-3 order-lg-1 text-center sidebar-prof" id="uwu">
                 <img th:src="@{/img/user/{file}(file = ${user.fileName})}" src="//placehold.it/150" class="profile-img mx-auto img-fluid img-circle d-block" alt="avatar">
 
                 <form th:object="${user}" th:action="@{/user/update/image}" method="POST" enctype="multipart/form-data">
                     <button class="btn btn-secondary" type="submit" name="button" value="delete">Delete current picture</button>
                     <h6 class="mt-2">Or upload a different photo</h6>
                     <div class="file-upload-wrapper">
-                        <input type="file" id="file" name="file" accept="image/*" class="custom-file-input">
-                        <span class="custom-file-control">Choose file</span>
+                        <label class="custom-file">
+                            <input type="file" id="file" name="file" accept="image/*" class="custom-file-input">
+                            <span class="btn btn-secondary" style="margin-top: -3.5rem;">Choose file</span>
+                        </label>
                     </div>
-                    <label class="custom-file">
 
-
-                    </label>
-                    <button class="btn btn-primary" type="submit" name="button" value="update">Change picture</button>
+                    <button class="btn btn-primary changeimg-btn" type="submit" name="button" value="update">Change picture</button>
                 </form>
             </div>
         </div>

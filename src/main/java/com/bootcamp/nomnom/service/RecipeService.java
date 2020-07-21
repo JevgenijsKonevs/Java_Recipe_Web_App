@@ -164,4 +164,9 @@ public class RecipeService {
         return likeRepository.findByRecipe_Id(id);
     }
 
+    public Page<Recipe> searchRecipe(String keyword, int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        return recipeRepository.findByTitleContaining(keyword, pageable);
+    }
+
 }
