@@ -49,14 +49,29 @@ public class RecipeController {
     }
 
     @GetMapping("/page/{pageNumber}")
-    public String getRecipesOnPage(Model model, @PathVariable("pageNumber") int pageNumber) {
+    public String getRecipesOnPage(Model model, @PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user) {
         Page<Recipe> page = recipeService.listAll(pageNumber);
         List<Recipe> recipeList = page.getContent();
         int totalPages = page.getTotalPages();
+        model.addAttribute("user", user);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("recipes", recipeList);
         return "recipes";
+    }
+
+    @GetMapping("/search/{keyword}/page/{pageNumber}")
+    public String searchRecipes(Model model, @PathVariable("keyword") String keyword,@PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user){
+        Page<Recipe> page = recipeService.searchRecipe(keyword, pageNumber);
+        List<Recipe> recipeList = page.getContent();
+        int totalPages = page.getTotalPages();
+        model.addAttribute("user", user);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("recipes", recipeList);
+        model.addAttribute("keyword", keyword);
+
+        return "search-results";
     }
 
     @GetMapping("/{recipeId}")
@@ -74,7 +89,8 @@ public class RecipeController {
     }
 
     @GetMapping("/new")
-    public String createRecipe() {
+    public String createRecipe(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         return "new-recipe";
     }
 

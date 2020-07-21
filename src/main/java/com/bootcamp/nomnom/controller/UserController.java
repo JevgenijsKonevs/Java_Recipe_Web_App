@@ -49,8 +49,8 @@ public class UserController {
     }
 
     @PostMapping("/update/password")
-    public String changeUserPassword(@AuthenticationPrincipal User user) {
-        userService.saveUserRegister(user);
+    public String changeUserPassword(@AuthenticationPrincipal User user, @RequestParam String password ) {
+        userService.updateUserPassword(user, password);
         return "redirect:/user/profile";
     }
 
