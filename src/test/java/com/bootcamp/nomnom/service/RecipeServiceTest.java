@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -79,6 +82,14 @@ public class RecipeServiceTest {
         Set<Recipe> actualRecipes = recipeService.getAllRecipeByUser(TestData.TEST_ID);
         assertEquals(1, actualRecipes.size());
         assertTrue(actualRecipes.contains(recipe));
+    }
+
+    @Test
+    void listAllTest() {
+        Page<Recipe> p = new PageImpl<>(Collections.singletonList(recipe));
+        when(recipeRepository.findAll(any(PageRequest.class))).thenReturn(p);
+
+        assertEquals(p, recipeService.listAll(1));
     }
 
     // TODO: Test will be written after method will be implemented

@@ -55,4 +55,17 @@ public class CommentServiceTest {
             commentService.deleteComment(TestData.TEST_ID);
         });
     }
+
+    @Test
+    void getCommentByIdTest() {
+        when(commentRepository.findById(any(Long.class))).thenReturn(Optional.of(comment));
+        assertEquals(comment, commentService.getCommentById(TestData.TEST_ID));
+    }
+
+    @Test
+    void getCommentByIdTestFails() {
+        assertThrows(EntityNotFoundException.class, () -> {
+            commentService.getCommentById(TestData.TEST_ID);
+        });
+    }
 }
