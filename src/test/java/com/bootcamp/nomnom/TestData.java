@@ -40,6 +40,7 @@ public class TestData {
         like.setId(TEST_ID);
         like.setRecipe(getRecipe());
         like.setUser(getUser());
+        like.setRecipeLike(true);
         return like;
     }
 
