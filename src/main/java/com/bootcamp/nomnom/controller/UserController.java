@@ -34,8 +34,9 @@ public class UserController {
         if (user != null && username.equals(user.getUsername())) {
             return "redirect:/user/profile";
         }
-        model.addAttribute("user", userService.loadUserByUsername(username));
-        model.addAttribute("recipes", recipeService.getAllRecipeByUser((long)1));
+        User u = userService.getUserByUsername(username);
+        model.addAttribute("user", u);
+        model.addAttribute("recipes", recipeService.getAllRecipeByUser(u.getId()));
         return "user-page";
     }
 
