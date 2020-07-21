@@ -48,7 +48,7 @@ public class RecipeServiceTest {
     RecipeService recipeService;
 
     private final String TEST_FILENAME_2 = "testFilename_2.png";
-    private final String ABSOLUTE_PATH = "./src/main/resources/static/images/recipe/";
+    private final String ABSOLUTE_PATH = "./src/main/uploads/images/recipe/";
     private final String TEST_CONTENT = "This is test content";
 
     private Recipe recipe;
@@ -102,6 +102,7 @@ public class RecipeServiceTest {
 
     @Test
     void updateRecipeTest() {
+        when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(recipe));
         when(recipeRepository.save(any(Recipe.class))).thenReturn(recipe);
         assertEquals(recipe, recipeService.updateRecipeWithoutImages(recipe, user));
     }
