@@ -1,8 +1,11 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +21,8 @@ import java.nio.file.Paths;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    private static Path fileUploadDirectory = Paths.get("./src/main/uploads/images/user");
 
     @Autowired
     private UserRepository userRepository;
@@ -40,27 +45,42 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByUsername(username);
     }
 
-    //Based on the RecipeService saveRecipe method..
     public User saveProfilePhoto(User user, MultipartFile file) throws IOException {
-        String dir = UserService.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "../resources";
-        if (ImageIO.read(file.getInputStream()) != null) {
-            String fileName = StringGenerator.getRandomFilename(file);
-            Path filePath = Paths.get(dir + "/user-profile_photos/" + fileName);
-            try {
-                Files.write(filePath, file.getBytes());
-                user.setFileName(fileName);
-                userRepository.save(user);
-                return user;
-            } catch (Exception e) {
-                // need proper handling...
-                e.printStackTrace();
-            }
-
+        if (file == null || file.isEmpty()) {
+            user.setFileName("default.png");
+            userRepository.save(user);
+            return user;
         } else {
-            return null;
+            if (ImageIO.read(file.getInputStream()) != null) {
+                String toDelete = user.getFileName();
+                String fileName = StringGenerator.getRandomFilename(file);
+                Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
+                try {
+                    Files.write(filePath, file.getBytes());
+                    user.setFileName(fileName);
+                    userRepository.save(user);
+                    if (!("default.png".equals(toDelete))) {
+                        Path pathToDelete = Paths.get(fileUploadDirectory + "/" + toDelete);
+                        Files.delete(pathToDelete);
+                    }
+                    return user;
+                } catch (Exception e) {
+                    // need proper handling...
+                    e.printStackTrace();
+                }
+            }
         }
+
         return user;
     }
 
+    public User deleteUserPicture(User user) throws IOException {
+        if (!("default.png").equals(user.getFileName())) {
+            Path deletePath = Paths.get(fileUploadDirectory + "/" + user.getFileName());
+            Files.delete(deletePath);
+            user.setFileName("default.png");
+        }
 
+        return user;
+    }
 }

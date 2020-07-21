@@ -46,11 +46,6 @@ img {
 	height:auto;
 }
 
-.profile-img {
-    max-width: 150px;
-    max-height: 150px;
-}
-
 /* main page */
 .card-horizontal {
     display: block;
@@ -78,6 +73,16 @@ img {
 
 #recipe-prev {
 	padding-bottom: 2rem;
+}
+
+h4 > a {
+    text-decoration: none;
+    color: black;
+}
+
+h4 > a:hover {
+    text-decoration: none;
+    color: gray;
 }
 
 /* login and register */
@@ -160,16 +165,6 @@ body.my-login-page {
 	text-align: center;
 }
 
-h4 > a {
-    text-decoration: none;
-    color: black;
-}
-
-h4 > a:hover {
-    text-decoration: none;
-    color: gray;
-}
-
 /* user page */
 .tab-pane .btn-primary {
     background-color: #ffb6b9;
@@ -211,6 +206,22 @@ h4 > a:hover {
     background-color: #ffb6b9;
     color: #000808;
     transition: all 0.5s ease-in;
+}
+
+.profile-img {
+    max-width: 150px;
+    max-height: 150px;
+    margin-bottom: 1rem;
+}
+
+td > a {
+    text-decoration: none;
+    color: black;
+}
+
+td > a:hover {
+    text-decoration: none;
+    color: gray;
 }
 
 /* multiple recipe */
@@ -360,6 +371,18 @@ h4 > a:hover {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.like {
+	width: 8%;
+	border: none;
+	background: none;
+}
+
+.dislike {
+	width: 8%;
+	border: none;
+	background: none;
 }
 
 /*--- Bootstrap Padding Fix --*/

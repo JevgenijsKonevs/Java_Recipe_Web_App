@@ -1,26 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Need to think of better title...</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    &lt;!&ndash; user image &ndash;&gt;-->
-<!--    <img>-->
-<!--    &lt;!&ndash; username &ndash;&gt;-->
-<!--    <h3 th:text="${username}"></h3>-->
-<!--    &lt;!&ndash; show only if user has created any recipes &ndash;&gt;-->
-<!--    <div th:unless="${recipes.empty}">-->
-<!--        <div th:each="recipe : ${recipes}">-->
-<!--            &lt;!&ndash; recipe image &ndash;&gt;-->
-<!--            <img>-->
-<!--            &lt;!&ndash; recipe title &ndash;&gt;-->
-<!--            <h3 th:text="${recipe.title}"></h3>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -37,38 +14,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-
 </head>
-    <!-- Navigation -->
-    <div class="navbar-default">
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="UserPage.html">User Profile</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="mx-auto order-0">
-                <div class="logo-container">
-                    <a class="navbar-brand" href="#"><img class="img-responsive" th:src="@{/images/NOMNOM.png}"></a>
-                </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-    </div>
 
 <body>
+    <!-- Navigation -->
+    <div th:insert="fragments/nav-bar.html"></div>
+
     <div class="container">
         <div class="row my-2">
             <div class="col-lg-8 order-lg-2">
@@ -94,25 +45,24 @@
                         </table>
                     </div>
                     <div class="tab-pane" id="edit">
-                        <form role="form">
+                        <form role="form" th:object="${user}" th:action="@{/user/update/password}" method="POST">
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">New Password</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="" placeholder="Choose your new password">
+                                    <input class="form-control" type="password" name="password" value="" placeholder="Choose your new password">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
                                 <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="" placeholder="Type your password once again">
+                                    <input class="form-control" type="password" name="password" value="" placeholder="Type your password once again">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label"></label>
                                 <div class="col-lg-9">
-                                    <input type="button" class="btn btn-primary" value="Save Changes">
+                                    <input type="submit" class="btn btn-primary" value="Save Changes">
                                     <input type="reset" class="btn btn-secondary" value="Cancel">
-
                                 </div>
                             </div>
                         </form>
@@ -120,12 +70,21 @@
                 </div>
             </div>
             <div class="col-lg-3 order-lg-1 text-center">
-                <img th:src="@{/img/user/default.png}" src="//placehold.it/150" class="profile-img mx-auto img-fluid img-circle d-block" alt="avatar">
-                <h6 class="mt-2">Upload a different photo</h6>
-                <label class="custom-file">
-                    <input type="file" id="file" class="custom-file-input">
-                    <span class="custom-file-control">Choose file</span>
-                </label>
+                <img th:src="@{/img/user/{file}(file = ${user.fileName})}" src="//placehold.it/150" class="profile-img mx-auto img-fluid img-circle d-block" alt="avatar">
+
+                <form th:object="${user}" th:action="@{/user/update/image}" method="POST" enctype="multipart/form-data">
+                    <button class="btn btn-secondary" type="submit" name="button" value="delete">Delete current picture</button>
+                    <h6 class="mt-2">Or upload a different photo</h6>
+                    <div class="file-upload-wrapper">
+                        <input type="file" id="file" name="file" accept="image/*" class="custom-file-input">
+                        <span class="custom-file-control">Choose file</span>
+                    </div>
+                    <label class="custom-file">
+
+
+                    </label>
+                    <button class="btn btn-primary" type="submit" name="button" value="update">Change picture</button>
+                </form>
             </div>
         </div>
     </div>

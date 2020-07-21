@@ -7,6 +7,8 @@ import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.service.CommentService;
 import com.bootcamp.nomnom.service.LikeService;
 import com.bootcamp.nomnom.service.RecipeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,8 @@ import java.util.Set;
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
+
+    Logger logger = LoggerFactory.getLogger(RecipeController.class);
 
     @Autowired
     private RecipeService recipeService;
@@ -84,18 +88,18 @@ public class RecipeController {
     public String editRecipe(Model model, @PathVariable("recipeId") Long recipeId, @AuthenticationPrincipal User user) {
         Recipe recipe = recipeService.getRecipeById(recipeId);
         model.addAttribute("recipe", recipe);
-        model.addAttribute(user);
+        model.addAttribute("user", user);
         return "edit-recipe";
     }
 
     @PostMapping("/update/{recipeId}")
-    public String updateRecipe(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file, @RequestParam("button") String command) throws IOException {
+    public String updateRecipe(@PathVariable("recipeId") Long recipeId, @ModelAttribute Recipe recipe, @AuthenticationPrincipal User user, @RequestParam("file") MultipartFile file) throws IOException {
         recipe.setId(recipeId);
         recipeValidation(recipeId, user.getId());
-        if(command.equals("update")) {
-            recipeService.updateRecipe(recipeService.updateRecipePicture(recipe, file));
+        if(!file.isEmpty()) {
+            recipeService.saveRecipe(recipe,user,file);
         } else {
-            recipeService.updateRecipe(recipeService.deleteRecipePicture(recipe));
+            recipeService.updateRecipeWithoutImages(recipe, user);
         }
 
         return "redirect:/recipe/" + recipeId;

@@ -25,13 +25,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //TODO: /** is only for easier testing, let's delete when register and auth works
-                .antMatchers("/**, /image/**", "/h2/**", "/console**", "/login", "/register", "/img/**", "/css/**", "/js/**").permitAll()
+                .antMatchers( "/image/**", "/h2/**", "/console**", "/login", "/register", "/img/**", "/css/**", "/js/**", "/recipe/page/**", "/recipe/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").defaultSuccessUrl("/")
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
+                .logoutUrl("/user/logout")
                 .and()
                 .headers().frameOptions().disable()
                 .and()

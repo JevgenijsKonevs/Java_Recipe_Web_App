@@ -1,5 +1,6 @@
 package com.bootcamp.nomnom.service;
 
+import com.bootcamp.nomnom.controller.RecipeController;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
@@ -11,6 +12,8 @@ import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +33,8 @@ import java.util.Set;
 public class RecipeService {
 
     private static Path fileUploadDirectory = Paths.get("./src/main/uploads/images/recipe");
+
+    Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -59,7 +64,8 @@ public class RecipeService {
 
     //TODO: proper returns and error handling
     public Recipe saveRecipe(Recipe recipe, User user, MultipartFile file) throws IOException {
-        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol"));
+
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol", "p"));
         recipe.setRecipeBody(sanitizedRecipeHTML);
         if (file == null || file.isEmpty()) {
             recipe.setFileName("default.png");
@@ -86,7 +92,11 @@ public class RecipeService {
         return recipe;
     }
 
-    public Recipe updateRecipe(Recipe recipe) {
+    public Recipe updateRecipeWithoutImages(Recipe recipe, User user) {
+        recipe.setUser(user);
+        recipe.setFileName(recipeRepository.findById(recipe.getId()).orElseThrow(EntityNotFoundException::new).getFileName());
+        String sanitizedRecipeHTML = Jsoup.clean(recipe.getRecipeBody(), Whitelist.simpleText().addTags("h1", "h2", "h3", "h4", "li", "ul", "ol", "p"));
+        recipe.setRecipeBody(sanitizedRecipeHTML);
         recipeRepository.save(recipe);
         return recipe;
     }

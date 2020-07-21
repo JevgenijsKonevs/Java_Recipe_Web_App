@@ -60,10 +60,10 @@ public class UserControllerTest {
         assertEquals("user-page",userController.findUserProfile("differentName", user));
     }
 
-    @Test
-    public void postImageTest() throws IOException {
-        assertEquals("redirect:/user/profile", userController.postImage(multipartFile,user));
-        verify(userService, atLeastOnce()).saveProfilePhoto(any(User.class), any(MultipartFile.class)) ;
-    }
+//    @Test
+//    public void postImageTest() throws IOException {
+//        assertEquals("redirect:/user/profile", userController.postImage(multipartFile,user));
+//        verify(userService, atLeastOnce()).saveProfilePhoto(any(User.class), any(MultipartFile.class)) ;
+//    }
 
 }
