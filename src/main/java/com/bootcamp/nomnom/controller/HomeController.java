@@ -26,12 +26,7 @@ public class HomeController {
 
     @GetMapping
     public String homePage(Model model, @AuthenticationPrincipal User user) {
-        List<Recipe> recipeList = new ArrayList<>();
-        recipeList.add(recipeService.getRecipeById((long) (Math.random() * ((7 - 1) + 1)) + 1));
-        recipeList.add(recipeService.getRecipeById((long) (Math.random() * ((7 - 1) + 1)) + 1));
-        recipeList.add(recipeService.getRecipeById((long) (Math.random() * ((7 - 1) + 1)) + 1));
-        recipeList.add(recipeService.getRecipeById((long) (Math.random() * ((7 - 1) + 1)) + 1));
-        model.addAttribute("recipes", recipeList);
+        model.addAttribute("recipes", recipeService.previewRecipeList());
         model.addAttribute("user", user);
         return "home";
     }

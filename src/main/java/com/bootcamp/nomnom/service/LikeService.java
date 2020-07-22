@@ -58,4 +58,15 @@ public class LikeService {
         return count;
     }
 
+    public Like getLikeByIds(Long userId, Long recipeId) {
+        Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
+        for (Like like : likeSet) {
+            if(like.getUser().getId() == userId) {
+                return like;
+            }
+        }
+
+        return null;
+    }
+
 }

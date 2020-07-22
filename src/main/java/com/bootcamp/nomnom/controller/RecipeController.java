@@ -153,13 +153,14 @@ public class RecipeController {
 
     @PostMapping("/{recipeId}/like/")
     public String submitLike(@PathVariable("recipeId") Long recipeId, @RequestParam("button") String recipeLike, @AuthenticationPrincipal User user) {
+        Like like;
         if (user == null) {
             return "redirect:/login";
         }
 
-        if (!(recipeService.hasRated(user.getId(), recipeId))) {
+        if(!(recipeService.hasRated(user.getId(), recipeId))) {
             Recipe recipe = recipeService.getRecipeById(recipeId);
-            Like like = new Like();
+            like = new Like();
             like.setRecipe(recipe);
             like.setUser(user);
             if(("like").equals(recipeLike)) {
@@ -167,9 +168,18 @@ public class RecipeController {
             } else {
                 like.setRecipeLike(false);
             }
-            likeService.saveLike(like);
-        }
 
+            likeService.saveLike(like);
+        } else {
+            like = likeService.getLikeByIds(user.getId(), recipeId);
+            if(("like").equals(recipeLike)) {
+                like.setRecipeLike(true);
+            } else {
+                like.setRecipeLike(false);
+            }
+
+            likeService.updateLike(like);
+        }
 
         return "redirect:/recipe/" + recipeId;
     }
