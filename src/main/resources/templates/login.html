@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <title>My Login Page</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
 </head>
 
 <div th:insert="fragments/nav-bar.html"></div>
@@ -49,7 +50,7 @@
                                 <div class="mt-4 text-center">
 
                                     Don't have an account? <button type="button" class="btn btn-primary btn-m"
-                                                                   onclick="window.location.href='register.html'">Create one</button>
+                                                                   onclick="window.location.href='register.html'"><a th:href="@{/register}" style="color: white;">Create one</a></button>
                                 </div>
                             </form>
                         </div>

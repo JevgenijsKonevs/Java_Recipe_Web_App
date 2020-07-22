@@ -30,12 +30,16 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public String findUserProfile(@PathVariable("username") String username, @AuthenticationPrincipal User user) {
+    public String findUserProfile(Model model, @PathVariable("username") String username, @AuthenticationPrincipal User user) {
         if (user != null && username.equals(user.getUsername())) {
-            return "profile";
+            return "redirect:/user/profile";
         }
+        User u = userService.getUserByUsername(username);
+        model.addAttribute("user", u);
+        model.addAttribute("recipes", recipeService.getAllRecipeByUser(u.getId()));
         return "user-page";
     }
+
 
     @PostMapping("/update/image")
     public String postImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user, @RequestParam("button") String command) throws IOException {
@@ -49,8 +53,8 @@ public class UserController {
     }
 
     @PostMapping("/update/password")
-    public String changeUserPassword(@AuthenticationPrincipal User user) {
-        userService.saveUserRegister(user);
+    public String changeUserPassword(@AuthenticationPrincipal User user, @RequestParam String password ) {
+        userService.updateUserPassword(user, password);
         return "redirect:/user/profile";
     }
 

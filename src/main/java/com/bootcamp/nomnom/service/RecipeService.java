@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -146,12 +149,51 @@ public class RecipeService {
         recipeRepository.delete(recipe);
     }
 
+    public boolean hasRated(Long userId, Long recipeId) {
+        Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
+        for (Like like : likeSet) {
+            if(like.getUser().getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Set<Comment> getAllComments(Long id) {
         return commentRepository.findByRecipe_Id(id);
     }
 
     public Set<Like> getAllLikes(Long id) {
         return likeRepository.findByRecipe_Id(id);
+    }
+
+    public Page<Recipe> searchRecipe(String keyword, int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        return recipeRepository.findByTitleContaining(keyword, pageable);
+    }
+
+    public List<Long> randomRecipeList() {
+        List<Long> idList = new ArrayList<>();
+        for(int i = 1; i <= 7; i++) {
+            idList.add((long)i);
+        }
+        Collections.shuffle(idList);
+
+        for(int i = 1; i <= 3; i++) {
+            idList.remove(idList.size() - 1);
+        }
+
+        return idList;
+    }
+
+    public List<Recipe> previewRecipeList() {
+        List<Recipe> recipeList = new ArrayList<>();
+        List<Long> indexList = randomRecipeList();
+        for(int i = 0; i <= 3; i++) {
+            recipeList.add(getRecipeById(indexList.get(i)));
+        }
+
+        return recipeList;
     }
 
 }

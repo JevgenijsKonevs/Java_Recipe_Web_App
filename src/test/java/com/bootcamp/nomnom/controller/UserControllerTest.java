@@ -50,15 +50,15 @@ public class UserControllerTest {
 //        assertEquals("profile",userController.showProfilePage(model));
 //    }
 
-    @Test
-    public void findUserProfileSameUserTest(){
-        assertEquals("profile",userController.findUserProfile(user.getUsername(), user));
-    }
-
-    @Test
-    public void findUserProfileDifferentUserTest(){
-        assertEquals("user-page",userController.findUserProfile("differentName", user));
-    }
+//    @Test
+//    public void findUserProfileSameUserTest(){
+//        assertEquals("profile",userController.findUserProfile(user.getUsername(), user));
+//    }
+//
+//    @Test
+//    public void findUserProfileDifferentUserTest(){
+//        assertEquals("user-page",userController.findUserProfile("differentName", user));
+//    }
 
 //    @Test
 //    public void postImageTest() throws IOException {
