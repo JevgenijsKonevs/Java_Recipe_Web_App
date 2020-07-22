@@ -136,6 +136,16 @@ public class RecipeService {
         return recipe;
     }
 
+    public User deleteUserPicture(User user) throws IOException {
+        if (!("default.png").equals(user.getFileName())) {
+            Path deletePath = Paths.get(fileUploadDirectory + "/" + user.getFileName());
+            Files.delete(deletePath);
+            user.setFileName("default.png");
+        }
+
+        return user;
+    }
+
     public void deleteRecipeById(Long id) {
         Recipe recipe = recipeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         Set<Like> recipeLikes = likeRepository.findByRecipe_Id(recipe.getId());
