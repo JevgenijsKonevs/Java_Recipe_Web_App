@@ -90,4 +90,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return user;
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
