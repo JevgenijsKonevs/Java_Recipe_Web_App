@@ -169,7 +169,7 @@ public class RecipeService {
 
     public Page<Recipe> searchRecipe(String keyword, int pageNumber){
         Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-        return recipeRepository.findByTitleContaining(keyword, pageable);
+        return recipeRepository.findByTitleContainingIgnoreCase(keyword, pageable);
     }
 
     public List<Long> randomRecipeList() {

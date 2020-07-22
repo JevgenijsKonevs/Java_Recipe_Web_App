@@ -60,8 +60,8 @@ public class RecipeController {
         return "recipes";
     }
 
-    @GetMapping("/search/{keyword}/page/{pageNumber}")
-    public String searchRecipes(Model model, @PathVariable("keyword") String keyword,@PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user){
+    @GetMapping("/search/page/{pageNumber}")
+    public String searchRecipes(Model model, @RequestParam("keyword") String keyword,@PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user){
         Page<Recipe> page = recipeService.searchRecipe(keyword, pageNumber);
         List<Recipe> recipeList = page.getContent();
         int totalPages = page.getTotalPages();
