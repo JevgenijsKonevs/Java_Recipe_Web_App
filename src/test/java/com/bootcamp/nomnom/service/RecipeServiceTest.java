@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -48,8 +49,6 @@ public class RecipeServiceTest {
     RecipeService recipeService;
 
     private final String TEST_FILENAME_2 = "testFilename_2.png";
-    private final String ABSOLUTE_PATH = "./src/main/uploads/images/recipe/";
-    private final String TEST_CONTENT = "This is test content";
 
     private Recipe recipe;
     private Like like;
@@ -115,32 +114,32 @@ public class RecipeServiceTest {
 
     @Test
     void updateRecipePictureTest() throws IOException {
-        multipartFile = TestData.getMockMultipartFile(TEST_CONTENT);
+        multipartFile = TestData.getMockMultipartFile(TestData.TEST_CONTENT);
         recipe.setFileName(TEST_FILENAME_2);
 
-        Files.write(Paths.get(ABSOLUTE_PATH + recipe.getFileName()), multipartFile.getBytes());
-        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+        Files.write(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName()), multipartFile.getBytes());
+        assertTrue(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
 
-        Recipe actual = recipeService.updateRecipePicture(recipe, multipartFile);
+        recipeService.updateRecipePicture(recipe, multipartFile);
 
-        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + TEST_FILENAME_2)));
-        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+        assertFalse(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + TEST_FILENAME_2)));
+        assertTrue(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
         assertNotEquals(TEST_FILENAME_2, recipeService.updateRecipePicture(recipe, multipartFile).getFileName());
 
-        Files.delete(Paths.get(ABSOLUTE_PATH + recipe.getFileName()));
-        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + recipe.getFileName())));
+        Files.delete(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName()));
+        assertFalse(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
     }
 
     @Test
     void deleteRecipePictureTest() throws IOException {
-        multipartFile = TestData.getMockMultipartFile(TEST_CONTENT);
+        multipartFile = TestData.getMockMultipartFile(TestData.TEST_CONTENT);
         recipe.setFileName(TestData.TEST_FILENAME);
 
-        Files.write(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME), multipartFile.getBytes());
+        Files.write(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + TestData.TEST_FILENAME), multipartFile.getBytes());
 
-        assertTrue(Files.exists(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME)));
+        assertTrue(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + TestData.TEST_FILENAME)));
         assertEquals("default.png", recipeService.deleteRecipePicture(recipe).getFileName());
-        assertFalse(Files.exists(Paths.get(ABSOLUTE_PATH + TestData.TEST_FILENAME)));
+        assertFalse(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + TestData.TEST_FILENAME)));
     }
 
     @Test
@@ -164,6 +163,20 @@ public class RecipeServiceTest {
     }
 
     @Test
+    void hasRatedTestReturnsTRUE() {
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(TestData.getSetOfLikes(1, 0));
+
+        assertTrue(recipeService.hasRated(TestData.TEST_ID, TestData.TEST_ID));
+    }
+
+    @Test
+    void hasRatedTestReturnsFALSE() {
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(TestData.getSetOfLikes(1, 0));
+
+        assertFalse(recipeService.hasRated(999L, TestData.TEST_ID));
+    }
+
+    @Test
     void getAllCommentsTest() {
         when(commentRepository.findByRecipe_Id(any(Long.class))).thenReturn(new HashSet<>(Collections.singletonList(comment)));
 
@@ -181,5 +194,20 @@ public class RecipeServiceTest {
         verify(likeRepository, atLeastOnce()).findByRecipe_Id(any(Long.class));
         assertEquals(1, actualComments.size());
         assertTrue(actualComments.contains(like));
+    }
+
+    @Test
+    void searchRecipeTest() {
+        Page<Recipe> p = new PageImpl<>(Collections.singletonList(TestData.getRecipe()));
+        when(recipeRepository.findByTitleContaining(anyString(), any(Pageable.class))).thenReturn(p);
+
+        assertEquals(p, recipeService.searchRecipe("keyword", 2));
+    }
+
+    @Test
+    void previewRecipeListTest() {
+        when(recipeRepository.findById(any(Long.class))).thenReturn(Optional.of(new Recipe()));
+
+        assertEquals(4, recipeService.previewRecipeList().size());
     }
 }

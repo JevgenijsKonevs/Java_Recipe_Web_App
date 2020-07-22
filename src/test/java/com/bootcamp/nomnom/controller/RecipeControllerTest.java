@@ -57,7 +57,6 @@ public class RecipeControllerTest {
         mockMvc.perform(get(BASE_PATH))
                 .andExpect(redirectedUrl("/recipe/page/1"))
                 .andExpect(status().isFound());
-//                .andExpect(status().isOk());
     }
 
     @Test
@@ -90,11 +89,11 @@ public class RecipeControllerTest {
         doReturn(l).when(recipeService).getAllLikes(1L);
 
         mockMvc.perform(get(BASE_PATH + "/{recipeId}", 1L, u))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("recipe", r))
-                .andExpect(model().attribute("recipeComments", c))
-                .andExpect(model().attribute("recipeLikes", l))
-                .andExpect(model().attribute("user", u));
+            .andExpect(status().isOk())
+            .andExpect(model().attribute("recipe", r))
+            .andExpect(model().attribute("recipeComments", c))
+            .andExpect(model().attribute("recipeLikes", l))
+            .andExpect(model().attribute("user", u));
     }
 
     @Test
@@ -104,6 +103,7 @@ public class RecipeControllerTest {
     }
 
     @Test
+    @Disabled
     public void postRecipeTest() throws Exception {
         doReturn(new Recipe()).when(recipeService).saveRecipe(any(Recipe.class), any(User.class), any(MultipartFile.class));
         mockMvc.perform(post(BASE_PATH))

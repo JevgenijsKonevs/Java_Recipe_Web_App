@@ -1,11 +1,8 @@
 package com.bootcamp.nomnom.service;
 
-import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.UserRepository;
 import com.bootcamp.nomnom.util.StringGenerator;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

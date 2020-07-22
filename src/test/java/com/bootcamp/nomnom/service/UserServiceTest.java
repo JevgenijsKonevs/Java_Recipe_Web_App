@@ -9,9 +9,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -62,6 +66,50 @@ public class UserServiceTest {
     void userExistsTest() {
         when(userRepository.existsByUsername(anyString())).thenReturn(true);
         assertTrue(userService.userExists(TestData.TEST_USERNAME));
+    }
+
+    @Test
+    void saveProfilePhotoTest() throws IOException {
+        User u = TestData.getUser();
+        when(userRepository.save(any(User.class))).thenReturn(u);
+
+        User actualUser = userService.saveProfilePhoto(u, TestData.getMockMultipartFile(TestData.TEST_CONTENT));
+        assertEquals(u, actualUser);
+    }
+
+    @Test
+    void updateUserPasswordTest() {
+        final String ENCODED_PASSWORD = "Xc79Ysjw973ns";
+        User u = TestData.getUser();
+        when(passwordEncoder.encode(anyString())).thenReturn(ENCODED_PASSWORD);
+        when(userRepository.save(any(User.class))).thenReturn(u);
+
+        User actualUser = userService.updateUserPassword(TestData.getUser(), TestData.TEST_PASSWORD);
+
+        assertEquals(u.getId(), actualUser.getId());
+        assertEquals(u.getUsername(), actualUser.getUsername());
+        assertEquals(ENCODED_PASSWORD, actualUser.getPassword());
+        assertEquals(u.getFileName(), actualUser.getFileName());
+    }
+
+    @Test
+    void getUserByUsernameTest() {
+        User u = TestData.getUser();
+        when(userRepository.findByUsername(anyString())).thenReturn(u);
+
+        assertEquals(u, userService.getUserByUsername(TestData.TEST_USERNAME));
+    }
+
+    @Test
+    void deleteUserPictureTest() throws IOException {
+        User u = TestData.getUser();
+        MultipartFile multipartFile = TestData.getMockMultipartFile(TestData.TEST_CONTENT);
+
+        Files.write(Paths.get(TestData.USER_ABSOLUTE_PATH + u.getFileName()), multipartFile.getBytes());
+        assertTrue(Files.exists(Paths.get(TestData.USER_ABSOLUTE_PATH + TestData.TEST_FILENAME)));
+
+        assertEquals("default.png", userService.deleteUserPicture(u).getFileName());
+        assertFalse(Files.exists(Paths.get(TestData.USER_ABSOLUTE_PATH + TestData.TEST_FILENAME)));
     }
 
 }
