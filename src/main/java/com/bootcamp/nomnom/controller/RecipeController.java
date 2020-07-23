@@ -43,7 +43,7 @@ public class RecipeController {
     @Autowired
     private LikeService likeService;
 
-    @GetMapping("")
+    @GetMapping()
     public String getAllRecipes(Model model) {
         return "redirect:/recipe/page/1";
     }

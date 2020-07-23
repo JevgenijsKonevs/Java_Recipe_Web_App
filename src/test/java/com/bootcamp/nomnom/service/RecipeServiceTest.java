@@ -94,10 +94,35 @@ public class RecipeServiceTest {
         assertEquals(p, recipeService.listAll(1));
     }
 
-    // TODO: Test will be written after method will be implemented
-    @Disabled
     @Test
-    void saveRecipeTest() {}
+    void saveRecipeNoImageTest() throws IOException {
+        multipartFile = null;
+
+        Recipe retrieved = recipeService.saveRecipe(recipe, user, multipartFile);
+
+        assertEquals(recipe.getTitle(), retrieved.getTitle());
+        assertEquals(recipe.getRecipeBody(), retrieved.getRecipeBody());
+        assertEquals("default.png", retrieved.getFileName());
+    }
+
+    @Test
+    void saveRecipeHasImageTest() throws IOException {
+        multipartFile = TestData.getMockMultipartFile(TestData.TEST_CONTENT);
+        recipe.setFileName(TEST_FILENAME_2);
+
+        Files.write(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName()), multipartFile.getBytes());
+        assertTrue(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
+
+        Recipe retrieved = recipeService.saveRecipe(recipe, user, multipartFile);
+
+        assertEquals(recipe.getTitle(), retrieved.getTitle());
+        assertEquals(recipe.getRecipeBody(), retrieved.getRecipeBody());
+
+        assertTrue(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
+
+        Files.delete(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName()));
+        assertFalse(Files.exists(Paths.get(TestData.RECIPE_ABSOLUTE_PATH + recipe.getFileName())));
+    }
 
     @Test
     void updateRecipeTest() {
@@ -199,7 +224,7 @@ public class RecipeServiceTest {
     @Test
     void searchRecipeTest() {
         Page<Recipe> p = new PageImpl<>(Collections.singletonList(TestData.getRecipe()));
-        when(recipeRepository.findByTitleContaining(anyString(), any(Pageable.class))).thenReturn(p);
+        when(recipeRepository.findByTitleContainingIgnoreCase(anyString(), any(Pageable.class))).thenReturn(p);
 
         assertEquals(p, recipeService.searchRecipe("keyword", 2));
     }

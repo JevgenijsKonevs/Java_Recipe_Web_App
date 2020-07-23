@@ -1,6 +1,7 @@
 package com.bootcamp.nomnom.service;
 
 import com.bootcamp.nomnom.TestData;
+import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,10 @@ public class UserServiceTest {
     PasswordEncoder passwordEncoder;
 
     private User testUser;
+    private MultipartFile multipartFile;
+
+    private final String TEST_FILENAME_2 = "testFilename_2.png";
+
 
     @BeforeEach
     void setUp() {
@@ -112,4 +117,27 @@ public class UserServiceTest {
         assertFalse(Files.exists(Paths.get(TestData.USER_ABSOLUTE_PATH + TestData.TEST_FILENAME)));
     }
 
+    @Test
+    void saveProfilePictureHasImageTest() throws IOException {
+        multipartFile = TestData.getMockMultipartFile(TestData.TEST_CONTENT);
+        testUser.setFileName(TEST_FILENAME_2);
+
+        Files.write(Paths.get(TestData.USER_ABSOLUTE_PATH + testUser.getFileName()), multipartFile.getBytes());
+        assertTrue(Files.exists(Paths.get(TestData.USER_ABSOLUTE_PATH + testUser.getFileName())));
+
+        User retrieved = userService.saveProfilePhoto(testUser, multipartFile);
+
+        assertEquals(TestData.TEST_USERNAME, testUser.getUsername());
+        assertNotEquals(TEST_FILENAME_2, testUser.getFileName());
+    }
+
+    @Test
+    void saveProfilePictureNoImageTest() throws IOException {
+        multipartFile = null;
+
+        User retrieved = userService.saveProfilePhoto(testUser, multipartFile);
+
+        assertEquals(TestData.TEST_USERNAME, retrieved.getUsername());
+        assertEquals("default.png", retrieved.getFileName());
+    }
 }
