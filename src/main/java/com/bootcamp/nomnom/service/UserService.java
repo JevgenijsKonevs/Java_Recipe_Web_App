@@ -49,7 +49,6 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
             return user;
         } else {
-            if (ImageIO.read(file.getInputStream()) != null) {
                 String toDelete = user.getFileName();
                 String fileName = StringGenerator.getRandomFilename(file);
                 Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
@@ -63,10 +62,7 @@ public class UserService implements UserDetailsService {
                     }
                     return user;
                 } catch (Exception e) {
-                    // need proper handling...
-                    e.printStackTrace();
                 }
-            }
         }
 
         return user;

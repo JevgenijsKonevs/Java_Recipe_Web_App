@@ -75,7 +75,6 @@ public class RecipeService {
             recipeRepository.save(recipe);
             return recipe;
         } else {
-            if (ImageIO.read(file.getInputStream()) != null) {
                 String fileName = StringGenerator.getRandomFilename(file);
                 Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
                 try {
@@ -85,14 +84,12 @@ public class RecipeService {
                     recipeRepository.save(recipe);
                     return recipe;
                 } catch (Exception e) {
-                    // need proper handling...
-                    e.printStackTrace();
+
                 }
             }
+        return recipe;
         }
 
-        return recipe;
-    }
 
     public Recipe updateRecipeWithoutImages(Recipe recipe, User user) {
         recipe.setUser(user);
@@ -118,7 +115,6 @@ public class RecipeService {
                     Files.delete(pathToDelete);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             }
 
             return recipe;
@@ -133,16 +129,6 @@ public class RecipeService {
         }
 
         return recipe;
-    }
-
-    public User deleteUserPicture(User user) throws IOException {
-        if (!("default.png").equals(user.getFileName())) {
-            Path deletePath = Paths.get(fileUploadDirectory + "/" + user.getFileName());
-            Files.delete(deletePath);
-            user.setFileName("default.png");
-        }
-
-        return user;
     }
 
     public void deleteRecipeById(Long id) {

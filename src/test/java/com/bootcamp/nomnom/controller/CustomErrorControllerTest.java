@@ -5,6 +5,7 @@ import com.bootcamp.nomnom.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -15,7 +16,9 @@ public class CustomErrorControllerTest {
     @InjectMocks
     CustomErrorController customErrorController;
 
+    @Mock
     Model model;
+
     User user;
 
     @BeforeEach
@@ -25,7 +28,7 @@ public class CustomErrorControllerTest {
     }
 
     @Test
-    public void loginPageTest(){
+    public void errorPageTest(){
         assertEquals("sad-cupcake-error", customErrorController.handleError(user, model));
     }
 

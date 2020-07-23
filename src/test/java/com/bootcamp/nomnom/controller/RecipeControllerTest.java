@@ -7,7 +7,7 @@ import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.service.CommentService;
 import com.bootcamp.nomnom.service.LikeService;
 import com.bootcamp.nomnom.service.RecipeService;
-import org.junit.Before;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,10 +42,6 @@ public class RecipeControllerTest {
     private CommentService commentService;
     @MockBean
     private LikeService likeService;
-
-    @Before
-    public void setup() {
-    }
 
     //Look at other Controller tests for a reference.
     //We are making very simple ones, only checking if right service methods are invoked and right template is returned.
