@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
 
     <title>Single recipe page</title>
 
@@ -110,17 +111,11 @@
                     </li>
                 </ol>
 
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-append">
-                    <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
-                </div>
                 <form th:action="@{/recipe/search/page/1}" method="GET">
                     <div class="form-group">
-                        <textarea required name="keyword" class="form-control" rows="3"></textarea>
+                        <input required name="keyword" class="form-control" rows="3">
                     </div>
-                    <button type="submit" class="btn btn-secondary">Submit</button>
+                    <button type="submit" class="btn btn-secondary">Go</button>
                 </form>
             </div>
         </div>
@@ -130,6 +125,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <!--    <script src="../static/js/like-dislike.js"></script>-->
 <!--    <script src="../static/js/like-dislike-counter.js"></script>-->
+    </div>
 </body>
 
 </html>
