@@ -1,6 +1,5 @@
 package com.bootcamp.nomnom.service;
 
-import com.bootcamp.nomnom.controller.RecipeController;
 import com.bootcamp.nomnom.entity.Comment;
 import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
@@ -172,7 +171,17 @@ public class RecipeService {
         return recipeRepository.findByTitleContaining(keyword, pageable);
     }
 
-    public List<Long> randomRecipeList() {
+    public List<Recipe> previewRecipeList() {
+        List<Recipe> recipeList = new ArrayList<>();
+        List<Long> indexList = randomRecipeList();
+        for(int i = 0; i <= 3; i++) {
+            recipeList.add(getRecipeById(indexList.get(i)));
+        }
+
+        return recipeList;
+    }
+
+    private List<Long> randomRecipeList() {
         List<Long> idList = new ArrayList<>();
         for(int i = 1; i <= 7; i++) {
             idList.add((long)i);
@@ -184,16 +193,6 @@ public class RecipeService {
         }
 
         return idList;
-    }
-
-    public List<Recipe> previewRecipeList() {
-        List<Recipe> recipeList = new ArrayList<>();
-        List<Long> indexList = randomRecipeList();
-        for(int i = 0; i <= 3; i++) {
-            recipeList.add(getRecipeById(indexList.get(i)));
-        }
-
-        return recipeList;
     }
 
 }

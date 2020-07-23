@@ -11,10 +11,11 @@ import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityNotFoundException;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,10 +44,10 @@ public class LikeServiceTest {
 
     @Test
     void deleteLikeByIdTest() {
-        when(likeRepository.findById(any(Long.class))).thenReturn(Optional.of(like));
+        when(likeRepository.findById(anyLong())).thenReturn(Optional.of(like));
 
         likeService.deleteLikeById(TestData.TEST_ID);
-        verify(likeRepository, atLeastOnce()).findById(any(Long.class));
+        verify(likeRepository, atLeastOnce()).findById(anyLong());
         verify(likeRepository, atLeastOnce()).delete(any(Like.class));
     }
 
@@ -60,5 +61,35 @@ public class LikeServiceTest {
     @Test
     void updateLikeTest() {
         assertEquals(like, likeService.updateLike(like));
+    }
+
+    @Test
+    void getRecipeLikes() {
+        Set<Like> likes = TestData.getSetOfLikes(10, 4);
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(likes);
+
+        assertEquals(6, likeService.getRecipeLikes(TestData.TEST_ID));
+    }
+
+    @Test
+    void getRecipeDislikesTest() {
+        Set<Like> likes = TestData.getSetOfLikes(10, 4);
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(likes);
+
+        assertEquals(4, likeService.getRecipeDislikes(TestData.TEST_ID));
+    }
+
+    @Test
+    void getLikeByIdsTest() {
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(Collections.singleton(like));
+
+        assertEquals(like, likeService.getLikeByIds(TestData.TEST_ID, 10L));
+    }
+
+    @Test
+    void getLikeByIdsTestReturnsNull() {
+        when(likeRepository.findByRecipe_Id(anyLong())).thenReturn(Collections.singleton(like));
+
+        assertNull(likeService.getLikeByIds(999L, 10L));
     }
 }
