@@ -46,12 +46,12 @@
                 </li>
             </ol>
 
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
-            </div>
+            <form th:action="@{/recipe/search/page/1}" method="GET">
+                <div class="form-group">
+                    <input required name="keyword" class="form-control" rows="3">
+                </div>
+                <button type="submit" class="btn btn-secondary">Go</button>
+            </form>
         </div>
         <!-- recipes-->
         <!-- show only if model attribute "recipes" is not empty -->
@@ -76,11 +76,11 @@
     </div>
     <nav class="recipe-pag" aria-label="...">
         <ul class="pagination pagination-sm">
-            <a th:if="${currentPage > 1}" th:href="@{/recipe/page/{pageNumber}(pageNumber = ${currentPage-1})}"
+            <a th:if="${currentPage > 1}" th:href="@{/recipe/search/page/{pageNumber}(pageNumber = ${currentPage-1}, keyword = ${keyword})}"
                class="page-item page-link">Previous</a>
             <li class="page-item disabled"><a class="page-link" href="#" th:text="${currentPage}">1</a></li>
             <li class="page-item"><a class="page-link" href="#" th:text="${currentPage +1}">2</a></li>
-            <a th:if="${currentPage != totalPages}" th:href="@{/recipe/page/{pageNumber}(pageNumber = ${currentPage+1})}"
+            <a th:if="${currentPage != totalPages}" th:href="@{/recipe/search/page/{pageNumber}(pageNumber = ${currentPage+1}, keyword = ${keyword})}"
                class="page-item page-link">Next</a>
         </ul>
     </nav>
