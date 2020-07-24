@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityNotFoundException;
-
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;

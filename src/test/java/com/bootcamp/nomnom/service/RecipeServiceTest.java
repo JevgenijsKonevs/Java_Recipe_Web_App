@@ -10,7 +10,6 @@ import com.bootcamp.nomnom.repository.LikeRepository;
 import com.bootcamp.nomnom.repository.RecipeRepository;
 import com.bootcamp.nomnom.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

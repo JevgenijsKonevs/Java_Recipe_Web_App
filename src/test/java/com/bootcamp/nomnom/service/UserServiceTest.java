@@ -1,7 +1,6 @@
 package com.bootcamp.nomnom.service;
 
 import com.bootcamp.nomnom.TestData;
-import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +18,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
@@ -53,7 +50,7 @@ public class UserServiceTest {
 
         userService.loadUserByUsername(TestData.TEST_USERNAME);
         //We only check the invocation count because it returns weird object UserDetails. It will be the only weird place in the code
-        verify(userRepository,atLeastOnce()).findByUsername(anyString());
+        verify(userRepository, atLeastOnce()).findByUsername(anyString());
     }
 
     //Use this one as a good example of an unit test :)

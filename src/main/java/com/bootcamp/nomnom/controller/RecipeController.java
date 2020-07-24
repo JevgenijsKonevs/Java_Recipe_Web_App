@@ -15,12 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -61,7 +56,7 @@ public class RecipeController {
     }
 
     @GetMapping("/search/page/{pageNumber}")
-    public String searchRecipes(Model model, @RequestParam("keyword") String keyword,@PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user){
+    public String searchRecipes(Model model, @RequestParam("keyword") String keyword, @PathVariable("pageNumber") int pageNumber, @AuthenticationPrincipal User user) {
         Page<Recipe> page = recipeService.searchRecipe(keyword, pageNumber);
         List<Recipe> recipeList = page.getContent();
         int totalPages = page.getTotalPages();
@@ -115,16 +110,16 @@ public class RecipeController {
         recipe.setId(recipeId);
         recipeValidation(recipeId, user.getId());
 
-        if(command.equals("update")) {
-            if(!file.isEmpty()) {
-                recipeService.saveRecipe(recipe,user,file);
+        if (command.equals("update")) {
+            if (!file.isEmpty()) {
+                recipeService.saveRecipe(recipe, user, file);
             } else {
                 recipeService.updateRecipeWithoutImages(recipe, user);
             }
         } else {
             Recipe rec = recipeService.getRecipeById(recipeId);
             recipeService.deleteRecipePicture(rec);
-            recipeService.saveRecipe(rec,user,file);
+            recipeService.saveRecipe(rec, user, file);
         }
 
         return "redirect:/recipe/" + recipeId;
@@ -165,25 +160,17 @@ public class RecipeController {
             return "redirect:/login";
         }
 
-        if(!(recipeService.hasRated(user.getId(), recipeId))) {
+        if (!(recipeService.hasRated(user.getId(), recipeId))) {
             Recipe recipe = recipeService.getRecipeById(recipeId);
             like = new Like();
             like.setRecipe(recipe);
             like.setUser(user);
-            if(("like").equals(recipeLike)) {
-                like.setRecipeLike(true);
-            } else {
-                like.setRecipeLike(false);
-            }
+            like.setRecipeLike(("like").equals(recipeLike));
 
             likeService.saveLike(like);
         } else {
             like = likeService.getLikeByIds(user.getId(), recipeId);
-            if(("like").equals(recipeLike)) {
-                like.setRecipeLike(true);
-            } else {
-                like.setRecipeLike(false);
-            }
+            like.setRecipeLike(("like").equals(recipeLike));
 
             likeService.updateLike(like);
         }

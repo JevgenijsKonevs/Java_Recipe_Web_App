@@ -1,14 +1,12 @@
 package com.bootcamp.nomnom.controller;
 
 import com.bootcamp.nomnom.TestData;
-import com.bootcamp.nomnom.entity.Like;
 import com.bootcamp.nomnom.entity.Recipe;
 import com.bootcamp.nomnom.entity.User;
 import com.bootcamp.nomnom.service.RecipeService;
 import com.bootcamp.nomnom.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,15 +17,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
 
@@ -55,36 +47,42 @@ public class UserControllerTest {
     }
 
     @Test
-    public void showProfilePageTest(){
+    public void showProfilePageTest() {
         Set<Recipe> emptySet = Collections.emptySet();
         when(recipeService.getAllRecipeByUser(anyLong())).thenReturn(emptySet);
-        assertEquals("profile",userController.showProfilePage(model, user));
+        assertEquals("profile", userController.showProfilePage(model, user));
     }
 
     @Test
-    public void findUserProfileSameUserTest(){
+    public void findUserProfileSameUserTest() {
         when(userService.getUserByUsername(anyString())).thenReturn(user);
-        assertEquals("redirect:/user/profile",userController.findUserProfile(model,user.getUsername(), user));
+        assertEquals("redirect:/user/profile", userController.findUserProfile(model, user.getUsername(), user));
     }
 
     @Test
-    public void findUserProfileDifferentUserTest(){
+    public void findUserProfileDifferentUserTest() {
         Set<Recipe> emptySet = Collections.emptySet();
         when(recipeService.getAllRecipeByUser(anyLong())).thenReturn(emptySet);
         when(userService.getUserByUsername(anyString())).thenReturn(user);
-        assertEquals("user-page",userController.findUserProfile(model,"differentName", user));
+        assertEquals("user-page", userController.findUserProfile(model, "differentName", user));
     }
 
     @Test
     public void postImageTest() throws IOException {
-        assertEquals("redirect:/user/profile", userController.postImage(multipartFile,user,"update"));
-        verify(userService, atLeastOnce()).saveProfilePhoto(any(User.class), any(MultipartFile.class)) ;
+        assertEquals("redirect:/user/profile", userController.postImage(multipartFile, user, "update"));
+        verify(userService, atLeastOnce()).saveProfilePhoto(any(User.class), any(MultipartFile.class));
     }
 
     @Test
     public void postImageDeleteTest() throws IOException {
-        assertEquals("redirect:/user/profile", userController.postImage(multipartFile,user,"nope"));
-        verify(userService, atLeastOnce()).deleteUserPicture(any(User.class)) ;
+        assertEquals("redirect:/user/profile", userController.postImage(multipartFile, user, "nope"));
+        verify(userService, atLeastOnce()).deleteUserPicture(any(User.class));
+    }
+
+    @Test
+    public void updatePasswordTest() {
+        when(userService.updateUserPassword(any(User.class), anyString())).thenReturn(user);
+        assertEquals("redirect:/user/profile", userController.changeUserPassword(user, "password"));
     }
 
 }

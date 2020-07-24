@@ -30,12 +30,12 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void registerPageTest(){
-        assertEquals("register",registrationController.registerPage());
+    public void registerPageTest() {
+        assertEquals("register", registrationController.registerPage());
     }
 
     @Test
-    public void addUserThatDoesNotExistTest(){
+    public void addUserThatDoesNotExistTest() {
         when(userService.userExists(anyString())).thenReturn(false);
         when(userService.saveUserRegister(user)).thenReturn(user);
 
@@ -43,7 +43,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void addUserThatAlreadyExistsTest(){
+    public void addUserThatAlreadyExistsTest() {
         when(userService.userExists(anyString())).thenReturn(true);
 
         assertEquals("redirect:/register", registrationController.addUser(user));

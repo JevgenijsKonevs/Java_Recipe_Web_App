@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,7 +33,7 @@ import java.util.Set;
 @Service
 public class RecipeService {
 
-    private static Path fileUploadDirectory = Paths.get("./src/main/uploads/images/recipe");
+    private static final Path fileUploadDirectory = Paths.get("./src/main/uploads/images/recipe");
 
     Logger logger = LoggerFactory.getLogger(RecipeService.class);
 
@@ -75,20 +74,20 @@ public class RecipeService {
             recipeRepository.save(recipe);
             return recipe;
         } else {
-                String fileName = StringGenerator.getRandomFilename(file);
-                Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
-                try {
-                    Files.write(filePath, file.getBytes());
-                    recipe.setFileName(fileName);
-                    recipe.setUser(user);
-                    recipeRepository.save(recipe);
-                    return recipe;
-                } catch (Exception e) {
+            String fileName = StringGenerator.getRandomFilename(file);
+            Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
+            try {
+                Files.write(filePath, file.getBytes());
+                recipe.setFileName(fileName);
+                recipe.setUser(user);
+                recipeRepository.save(recipe);
+                return recipe;
+            } catch (Exception e) {
 
-                }
             }
-        return recipe;
         }
+        return recipe;
+    }
 
 
     public Recipe updateRecipeWithoutImages(Recipe recipe, User user) {
@@ -147,7 +146,7 @@ public class RecipeService {
     public boolean hasRated(Long userId, Long recipeId) {
         Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
         for (Like like : likeSet) {
-            if(like.getUser().getId() == userId) {
+            if (like.getUser().getId() == userId) {
                 return true;
             }
         }
@@ -162,7 +161,7 @@ public class RecipeService {
         return likeRepository.findByRecipe_Id(id);
     }
 
-    public Page<Recipe> searchRecipe(String keyword, int pageNumber){
+    public Page<Recipe> searchRecipe(String keyword, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber - 1, 5);
         return recipeRepository.findByTitleContainingIgnoreCase(keyword, pageable);
     }
@@ -170,7 +169,7 @@ public class RecipeService {
     public List<Recipe> previewRecipeList() {
         List<Recipe> recipeList = new ArrayList<>();
         List<Long> indexList = randomRecipeList();
-        for(int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             recipeList.add(getRecipeById(indexList.get(i)));
         }
 
@@ -179,12 +178,12 @@ public class RecipeService {
 
     private List<Long> randomRecipeList() {
         List<Long> idList = new ArrayList<>();
-        for(int i = 1; i <= 7; i++) {
-            idList.add((long)i);
+        for (int i = 1; i <= 7; i++) {
+            idList.add((long) i);
         }
         Collections.shuffle(idList);
 
-        for(int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             idList.remove(idList.size() - 1);
         }
 

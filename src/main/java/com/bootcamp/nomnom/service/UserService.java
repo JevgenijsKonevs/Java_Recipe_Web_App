@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +18,7 @@ import java.nio.file.Paths;
 @Service
 public class UserService implements UserDetailsService {
 
-    private static Path fileUploadDirectory = Paths.get("./src/main/uploads/images/user");
+    private static final Path fileUploadDirectory = Paths.get("./src/main/uploads/images/user");
 
     @Autowired
     private UserRepository userRepository;
@@ -49,20 +48,20 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
             return user;
         } else {
-                String toDelete = user.getFileName();
-                String fileName = StringGenerator.getRandomFilename(file);
-                Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
-                try {
-                    Files.write(filePath, file.getBytes());
-                    user.setFileName(fileName);
-                    userRepository.save(user);
-                    if (!("default.png".equals(toDelete))) {
-                        Path pathToDelete = Paths.get(fileUploadDirectory + "/" + toDelete);
-                        Files.delete(pathToDelete);
-                    }
-                    return user;
-                } catch (Exception e) {
+            String toDelete = user.getFileName();
+            String fileName = StringGenerator.getRandomFilename(file);
+            Path filePath = Paths.get(fileUploadDirectory + "/" + fileName);
+            try {
+                Files.write(filePath, file.getBytes());
+                user.setFileName(fileName);
+                userRepository.save(user);
+                if (!("default.png".equals(toDelete))) {
+                    Path pathToDelete = Paths.get(fileUploadDirectory + "/" + toDelete);
+                    Files.delete(pathToDelete);
                 }
+                return user;
+            } catch (Exception e) {
+            }
         }
 
         return user;
@@ -78,7 +77,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User updateUserPassword(User user, String password){
+    public User updateUserPassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
         return user;

@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -38,7 +37,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void homePageTest(){
+    public void homePageTest() {
         List<Recipe> emptyList = Collections.emptyList();
         when(recipeService.previewRecipeList()).thenReturn(emptyList);
         assertEquals("home", homeController.homePage(model, user));
