@@ -45,6 +45,7 @@ public class TestData {
     public static Like getLike() {
         return getLike(true);
     }
+
     public static Like getLike(boolean isRecipeLike) {
         Like like = new Like();
         like.setId(TEST_ID);
@@ -75,7 +76,7 @@ public class TestData {
         return comment;
     }
 
-    public static MockMultipartFile getMockMultipartFile (String content) {
+    public static MockMultipartFile getMockMultipartFile(String content) {
         return new MockMultipartFile("fileName", TEST_FILENAME, null, content.getBytes());
     }
 }

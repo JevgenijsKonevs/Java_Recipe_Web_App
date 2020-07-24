@@ -43,7 +43,7 @@ public class UserController {
 
     @PostMapping("/update/image")
     public String postImage(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user, @RequestParam("button") String command) throws IOException {
-        if(command.equals("update")) {
+        if (command.equals("update")) {
             userService.saveProfilePhoto(user, file);
         } else {
             userService.deleteUserPicture(user);
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/update/password")
-    public String changeUserPassword(@AuthenticationPrincipal User user, @RequestParam String password ) {
+    public String changeUserPassword(@AuthenticationPrincipal User user, @RequestParam String password) {
         userService.updateUserPassword(user, password);
         return "redirect:/user/profile";
     }

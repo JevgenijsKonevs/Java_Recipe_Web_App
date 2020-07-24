@@ -34,7 +34,7 @@ public class LikeService {
         long count = 0;
         Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
         for (Like like : likeSet) {
-            if(like.getRecipeLike()) {
+            if (like.getRecipeLike()) {
                 count++;
             }
         }
@@ -46,7 +46,7 @@ public class LikeService {
         long count = 0;
         Set<Like> likeSet = likeRepository.findByRecipe_Id(recipeId);
         for (Like like : likeSet) {
-            if(!(like.getRecipeLike())) {
+            if (!(like.getRecipeLike())) {
                 count++;
             }
         }

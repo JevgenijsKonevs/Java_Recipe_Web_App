@@ -18,7 +18,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void loginPageTest(){
+    public void loginPageTest() {
         assertEquals("login", loginController.login());
     }
 }

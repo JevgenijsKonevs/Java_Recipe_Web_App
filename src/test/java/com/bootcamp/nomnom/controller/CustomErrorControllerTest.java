@@ -28,12 +28,12 @@ public class CustomErrorControllerTest {
     }
 
     @Test
-    public void errorPageTest(){
+    public void errorPageTest() {
         assertEquals("sad-cupcake-error", customErrorController.handleError(user, model));
     }
 
     @Test
-    public void errorPathTest(){
+    public void errorPathTest() {
         assertEquals("/error", customErrorController.getErrorPath());
 
     }

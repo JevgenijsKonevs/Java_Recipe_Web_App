@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //TODO: /** is only for easier testing, let's delete when register and auth works
-                .antMatchers( "/image/**", "/h2/**", "/login", "/register", "/img/**", "/css/**", "/js/**", "/recipe/page/*", "/recipe/*","/recipe","/recipe/search/**").permitAll()
+                .antMatchers("/image/**", "/h2/**", "/login", "/register", "/img/**", "/css/**", "/js/**", "/recipe/page/*", "/recipe/*", "/recipe", "/recipe/search/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
