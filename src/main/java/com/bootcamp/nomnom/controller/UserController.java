@@ -46,7 +46,7 @@ public class UserController {
         if (command.equals("update")) {
             userService.saveProfilePhoto(user, file);
         } else {
-            userService.deleteUserPicture(user);
+            userService.saveProfilePhoto(user, null);
         }
 
         return "redirect:/user/profile";

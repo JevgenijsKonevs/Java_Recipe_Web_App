@@ -76,7 +76,6 @@ public class UserControllerTest {
     @Test
     public void postImageDeleteTest() throws IOException {
         assertEquals("redirect:/user/profile", userController.postImage(multipartFile, user, "nope"));
-        verify(userService, atLeastOnce()).deleteUserPicture(any(User.class));
     }
 
     @Test
