@@ -45,6 +45,7 @@ We have defined:
 The app was made by
 - Cristina Rodriguez
 - Kristers Nikitins
+- Jevgenijs Konevs
 - Agate Ezera
 - Valerija Britikova
-- Jevgenijs Konevs
+
